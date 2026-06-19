@@ -95,6 +95,15 @@
   .field input{width:80px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:17px;font-weight:600;padding:9px;text-align:right}
   .field .u{color:var(--muted);font-size:14px;min-width:28px}
   .hint{font-size:13px;color:var(--muted);background:var(--card);border-radius:14px;padding:12px 14px;line-height:1.45;margin-top:14px}
+  .ritem{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .ritem:last-of-type{border-bottom:none}
+  .ritem .nm{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:15px;padding:10px}
+  .ritem .am{width:62px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:15px;font-weight:600;padding:10px 8px;text-align:right}
+  .ritem .un{width:46px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:14px;padding:10px 4px;text-align:center}
+  .ritem .del{flex:none;width:36px;height:36px;border:none;border-radius:10px;background:#3a2420;color:#e6a596;font-size:22px;cursor:pointer;line-height:1}
+  .ritem .del:active{background:#4a2c26}
+  .addrow{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--crust);border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
+  .addrow:active{background:var(--card)}
 </style>
 </head>
 <body>
@@ -109,13 +118,18 @@ var DEF_BASE = { muka:500, voda:350, kvasok:100, sol:10, rasca:5 }; // na 1 boch
 var DEF_EXTRA = { cibulka:100, cheddar:80 };                        // na 1 bochník
 var DEF_TIMES = [85,30,30,30,30,30,30,15];                          // minúty / krok
 
-var BASE_FIELDS = [
-  {k:'muka',  label:'Chlebová múka', u:'g'},
-  {k:'voda',  label:'Vlažná voda',   u:'ml'},
-  {k:'kvasok',label:'Aktívny kvások',u:'g'},
-  {k:'sol',   label:'Soľ',           u:'g'},
-  {k:'rasca', label:'Rasca',         u:'g'}
-];
+function baseItems(){ return [
+  {name:'Chlebová múka', amt:DEF_BASE.muka,  unit:'g'},
+  {name:'Vlažná voda',   amt:DEF_BASE.voda,  unit:'ml'},
+  {name:'Aktívny kvások',amt:DEF_BASE.kvasok,unit:'g'},
+  {name:'Soľ',           amt:DEF_BASE.sol,   unit:'g'},
+  {name:'Rasca',         amt:DEF_BASE.rasca, unit:'g'}
+]; }
+function defRecipes(){ return {
+  klasik:  baseItems(),
+  cibulka: baseItems().concat([{name:'Opražená cibuľka',  amt:DEF_EXTRA.cibulka, unit:'g'}]),
+  cheddar: baseItems().concat([{name:'Nastrúhaný cheddar', amt:DEF_EXTRA.cheddar, unit:'g'}])
+}; }
 
 var TYPES = {
   klasik:  { name:'Klasický',   emoji:'🍞', desc:'Tradičný kváskový s rascou', extraKey:null },
@@ -138,13 +152,27 @@ var STEP_META = [
 var SET_KEY='kchlieb-settings';
 var settings = loadSettings();
 function loadSettings(){
-  var s={ base:Object.assign({},DEF_BASE), extra:Object.assign({},DEF_EXTRA), times:DEF_TIMES.slice() };
+  var s={ recipes:defRecipes(), times:DEF_TIMES.slice() };
   try{
     var raw=localStorage.getItem(SET_KEY);
     if(raw){ var p=JSON.parse(raw);
-      if(p.base) Object.assign(s.base,p.base);
-      if(p.extra) Object.assign(s.extra,p.extra);
       if(Array.isArray(p.times)&&p.times.length===8) s.times=p.times.slice();
+      if(p.recipes && p.recipes.klasik){
+        ['klasik','cibulka','cheddar'].forEach(function(k){
+          if(Array.isArray(p.recipes[k])) s.recipes[k]=p.recipes[k].map(function(it){ return {name:String(it.name||''), amt:(+it.amt||0), unit:String(it.unit||'')}; });
+        });
+      } else if(p.base || p.extra){ // migrácia zo staršej verzie (base/extra)
+        var b=Object.assign({},DEF_BASE,p.base||{}), e=Object.assign({},DEF_EXTRA,p.extra||{});
+        var base=[
+          {name:'Chlebová múka',amt:b.muka,unit:'g'},
+          {name:'Vlažná voda',amt:b.voda,unit:'ml'},
+          {name:'Aktívny kvások',amt:b.kvasok,unit:'g'},
+          {name:'Soľ',amt:b.sol,unit:'g'},
+          {name:'Rasca',amt:b.rasca,unit:'g'}
+        ];
+        var cp=function(){ return base.map(function(it){ return {name:it.name,amt:it.amt,unit:it.unit}; }); };
+        s.recipes={ klasik:cp(), cibulka:cp().concat([{name:'Opražená cibuľka',amt:e.cibulka,unit:'g'}]), cheddar:cp().concat([{name:'Nastrúhaný cheddar',amt:e.cheddar,unit:'g'}]) };
+      }
     }
   }catch(e){}
   return s;
@@ -159,11 +187,10 @@ function loadState(){ try{ var s=localStorage.getItem(ST_KEY); return s?JSON.par
 function resetRun(){ state={ screen:'home', type:state.type, count:state.count, step:0, endAt:null, paused:false, remain:null }; saveState(); }
 
 /* ---------- helpers ---------- */
+function fmtNum(n){ n=Math.round(n*10)/10; return String(n); }
 function recipeList(typeKey,count){
-  var t=TYPES[typeKey], out=[];
-  BASE_FIELDS.forEach(function(f){ out.push({n:f.label, v:Math.round(settings.base[f.k]*count)+' '+f.u}); });
-  if(t.extraKey){ out.push({n:t.extraLabel, v:Math.round(settings.extra[t.extraKey]*count)+' g'}); }
-  return out;
+  var arr=settings.recipes[typeKey]||[];
+  return arr.map(function(it){ return {n:it.name, v:fmtNum(it.amt*count)+(it.unit?' '+it.unit:'')}; });
 }
 function buildSteps(typeKey){
   var t=TYPES[typeKey];
@@ -293,40 +320,51 @@ function numInput(val){
 
 function renderEditRecipe(){
   app.innerHTML='';
+  var typeKey=state.type, t=TYPES[typeKey];
+  var draft=(settings.recipes[typeKey]||[]).map(function(it){ return {name:it.name, amt:it.amt, unit:it.unit}; });
+
   var top=el('<div class="top"><button class="back">‹ Späť</button><button class="linkbtn">Pôvodné</button></div>');
-  top.querySelector('.back').onclick=function(){ go(stateBackFromEdit()); };
+  top.querySelector('.back').onclick=function(){ go('recipe'); };
   app.appendChild(top);
-  app.appendChild(el('<div><h1>Upraviť recept</h1><p class="sub">Hodnoty sú <b>na 1 bochník</b>. Celkové množstvo sa prepočíta podľa počtu.</p></div>'));
+  app.appendChild(el('<div><h1>Upraviť recept</h1><p class="sub">'+t.emoji+' '+t.name+' · množstvá sú <b>na 1 bochník</b>. Položky môžeš pridať aj zmazať.</p></div>'));
 
   var box=el('<div class="recipe"></div>');
-  var inputs={};
-  BASE_FIELDS.forEach(function(f){
-    var row=el('<div class="ing"><span class="nm">'+f.label+'</span></div>');
-    var wrap=el('<span style="display:flex;align-items:center"></span>');
-    var inp=numInput(settings.base[f.k]); inputs['base_'+f.k]=inp;
-    wrap.appendChild(inp); wrap.appendChild(el('<span class="unit">'+f.u+'</span>'));
-    row.appendChild(wrap); box.appendChild(row);
-  });
-  // extras
-  ['cibulka','cheddar'].forEach(function(k){
-    var label = k==='cibulka' ? 'Cibuľka (na chlieb s cibuľkou)' : 'Cheddar (na chlieb s cheddarom)';
-    var row=el('<div class="ing"><span class="nm">'+label+'</span></div>');
-    var wrap=el('<span style="display:flex;align-items:center"></span>');
-    var inp=numInput(settings.extra[k]); inputs['extra_'+k]=inp;
-    wrap.appendChild(inp); wrap.appendChild(el('<span class="unit">g</span>'));
-    row.appendChild(wrap); box.appendChild(row);
-  });
   app.appendChild(box);
 
+  function sync(){
+    draft=[].slice.call(box.querySelectorAll('.ritem')).map(function(r){
+      return { name:r.querySelector('.nm').value, amt:parseFloat(r.querySelector('.am').value)||0, unit:r.querySelector('.un').value };
+    });
+  }
+  function paint(){
+    box.innerHTML='';
+    draft.forEach(function(it,idx){
+      var row=el('<div class="ritem"></div>');
+      var nm=el('<input class="nm" type="text" placeholder="názov suroviny">'); nm.value=it.name;
+      var am=el('<input class="am" type="number" inputmode="decimal" step="any" min="0">'); am.value=it.amt;
+      var un=el('<input class="un" type="text" placeholder="g">'); un.value=it.unit;
+      var del=el('<button class="del" title="Zmazať">×</button>');
+      del.onclick=function(){ sync(); draft.splice(idx,1); paint(); };
+      row.appendChild(nm); row.appendChild(am); row.appendChild(un); row.appendChild(del);
+      box.appendChild(row);
+    });
+    if(!draft.length) box.appendChild(el('<div class="note" style="padding:14px 0">Žiadne položky — pridaj prvú nižšie.</div>'));
+  }
+  paint();
+
+  var add=el('<button class="addrow">＋ Pridať položku</button>');
+  add.onclick=function(){ sync(); draft.push({name:'',amt:0,unit:'g'}); paint(); var ins=box.querySelectorAll('.ritem .nm'); if(ins.length) ins[ins.length-1].focus(); };
+  app.appendChild(add);
+
   top.querySelector('.linkbtn').onclick=function(){
-    if(confirm('Vrátiť pôvodné množstvá?')){ settings.base=Object.assign({},DEF_BASE); settings.extra=Object.assign({},DEF_EXTRA); saveSettings(); renderEditRecipe(); }
+    if(confirm('Vrátiť pôvodný recept pre: '+t.name+'?')){ settings.recipes[typeKey]=defRecipes()[typeKey]; saveSettings(); renderEditRecipe(); }
   };
 
   app.appendChild(el('<div class="spacer"></div>'));
   var save=el('<button class="btn">Uložiť</button>');
   save.onclick=function(){
-    BASE_FIELDS.forEach(function(f){ var v=parseFloat(inputs['base_'+f.k].value); if(!isNaN(v)&&v>=0) settings.base[f.k]=v; });
-    ['cibulka','cheddar'].forEach(function(k){ var v=parseFloat(inputs['extra_'+k].value); if(!isNaN(v)&&v>=0) settings.extra[k]=v; });
+    sync();
+    settings.recipes[typeKey]=draft.filter(function(it){ return it.name.trim()!==''; });
     saveSettings(); go('recipe');
   };
   app.appendChild(save);
