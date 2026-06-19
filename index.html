@@ -104,6 +104,8 @@
   .ritem .del:active{background:#4a2c26}
   .addrow{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--crust);border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
   .addrow:active{background:var(--card)}
+  .tempbadge{display:inline-block;background:#3a2218;color:#f4b483;border:1px solid #5a3420;font-weight:700;font-size:17px;padding:8px 18px;border-radius:22px}
+  .u2{color:var(--muted);font-size:13px;margin-left:8px;min-width:54px;text-align:right}
 </style>
 </head>
 <body>
@@ -116,7 +118,7 @@
 /* ---------- DEFAULTS ---------- */
 var DEF_BASE = { muka:500, voda:350, kvasok:100, sol:10, rasca:5 }; // na 1 bochník
 var DEF_EXTRA = { cibulka:100, cheddar:80 };                        // na 1 bochník
-var DEF_TIMES = [85,30,30,30,30,30,30,15];                          // minúty / krok
+var DEF_TIMES = [85,30,30,30,30,30,30,15, 15,1440,45,25,20];        // minúty / krok
 
 function baseItems(){ return [
   {name:'Chlebová múka', amt:DEF_BASE.muka,  unit:'g'},
@@ -145,7 +147,12 @@ var STEP_META = [
   {name:'Prekladanie 2 z 4', ins:'Znova cesto natiahni a prelož do stredu zo všetkých strán. Prikry.', note:''},
   {name:'Prekladanie 3 z 4', ins:'Znova cesto natiahni a prelož do stredu zo všetkých strán. Prikry.', note:''},
   {name:'Prekladanie 4 z 4', ins:'Posledné prekladanie — cesto by malo byť hladšie a pružnejšie. Prikry.', note:''},
-  {name:'Odstátie',          ins:'Nechaj cesto naposledy v pokoji odstáť pred ďalším spracovaním.', note:'Potom môžeš cesto vyklopiť, vytvarovať a dať kysnúť.'}
+  {name:'Odstátie',          ins:'Nechaj cesto naposledy v pokoji odstáť pred tvarovaním.', note:''},
+  {name:'Tvarovanie',        ins:'Vyklop cesto na pomúčenú dosku, jemne predtvaruj do gule a nechaj chvíľu odpočinúť. Potom vytvaruj finálny bochník a vlož ho spojom nahor do dobre vymúčeného ošatka alebo misy s utierkou.', note:'Povrch cesta aj utierku poriadne pomúč, aby sa neprilepilo.'},
+  {name:'Kysnutie v chladničke', ins:'Ošatok prikry (igelitovým vreckom alebo utierkou) a daj do chladničky pomaly kysnúť 24 hodín. Cesto získa chuť a lepšie sa zareže.', note:'⏰ Časovač beží aj keď appku zavrieš. Pokojne telefón odlož a otvor appku až zajtra — ukáže, že krok je hotový.'},
+  {name:'Predhrev rúry',     ins:'Rozohrej rúru na plný výkon. Nech sa poriadne prehreje (10–15 min po dosiahnutí teploty).', note:'Keramická nádoba: ak máš neglazovaný Römertopf, NEpredhrievaj ho prázdny — namoč ho ~10 min vo vode a vlož do studenej/vlažnej rúry. Glazovanú nádobu/cloche na chlieb môžeš predhriať spolu s rúrou.', temp:'250 °C'},
+  {name:'Pečenie pod pokrievkou', ins:'Cesto vyber z chladničky, vyklop na papier na pečenie a ostrým nožom alebo žiletkou zarež vrch. Vlož do nádoby, prikry pokrievkou a peč pod pokrievkou.', note:'Para pod pokrievkou spraví krásnu chrumkavú kôrku a pekné „ucho".', temp:'250 °C'},
+  {name:'Pečenie bez pokrievky',  ins:'Odkry pokrievku a dopeč chlieb dozlatista. Hotový bochník po poklepaní zospodu znie duto.', note:'Pred krájaním nechaj vychladnúť aspoň hodinu na mriežke — vnútro ešte dozrieva.', temp:'220 °C'}
 ];
 
 /* ---------- SETTINGS (persist) ---------- */
@@ -156,7 +163,7 @@ function loadSettings(){
   try{
     var raw=localStorage.getItem(SET_KEY);
     if(raw){ var p=JSON.parse(raw);
-      if(Array.isArray(p.times)&&p.times.length===8) s.times=p.times.slice();
+      if(Array.isArray(p.times)){ for(var ti=0; ti<s.times.length; ti++){ if(typeof p.times[ti]==='number' && p.times[ti]>=0) s.times[ti]=p.times[ti]; } }
       if(p.recipes && p.recipes.klasik){
         ['klasik','cibulka','cheddar'].forEach(function(k){
           if(Array.isArray(p.recipes[k])) s.recipes[k]=p.recipes[k].map(function(it){ return {name:String(it.name||''), amt:(+it.amt||0), unit:String(it.unit||'')}; });
@@ -198,11 +205,11 @@ function buildSteps(typeKey){
     var ins=m.ins;
     if(i===3 && t.extraKey==='cibulka') ins+=' Vmiešaj opraženú a vychladnutú cibuľku.';
     if(i===3 && t.extraKey==='cheddar') ins+=' Vmiešaj nastrúhaný cheddar.';
-    return { name:m.name, ins:ins, note:m.note, min:settings.times[i] };
+    return { name:m.name, ins:ins, note:m.note, min:settings.times[i], temp:m.temp };
   });
 }
 function totalMin(){ return settings.times.reduce(function(a,b){return a+(+b||0);},0); }
-function fmtDur(mins){ var h=Math.floor(mins/60), m=mins%60; return (h?h+' h ':'')+(m?m+' min':(h?'':'0 min')); }
+function fmtDur(mins){ var h=Math.floor(mins/60), m=mins%60; return ((h?h+' h ':'')+(m?m+' min':(h?'':'0 min'))).trim(); }
 
 /* ---------- AUDIO / WAKE / NOTIFY ---------- */
 var actx=null, wake=null;
@@ -231,7 +238,7 @@ function notify(title,body){
   }catch(e){}
 }
 document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='visible' && state.screen==='timer' && !state.paused && state.endAt && state.endAt>Date.now()){ getWake(); }
+  if(document.visibilityState==='visible' && state.screen==='timer' && !state.paused && state.endAt && state.endAt>Date.now() && (settings.times[state.step]||0)<=120){ getWake(); }
 });
 
 /* ---------- RENDER ---------- */
@@ -383,7 +390,10 @@ function renderEditTimes(){
     var row=el('<div class="field"><label>'+m.name+'</label></div>');
     var w=el('<span class="inp"></span>');
     var inp=numInput(settings.times[i]); inputs.push(inp);
-    w.appendChild(inp); w.appendChild(el('<span class="u">min</span>'));
+    var hint=el('<span class="u2"></span>');
+    function upd(){ var v=parseInt(inp.value,10); hint.textContent=(!isNaN(v)&&v>=60)?('= '+fmtDur(v)):''; }
+    inp.addEventListener('input',upd); upd();
+    w.appendChild(inp); w.appendChild(el('<span class="u">min</span>')); w.appendChild(hint);
     row.appendChild(w); box.appendChild(row);
   });
   app.appendChild(box);
@@ -420,6 +430,7 @@ function renderTimer(){
 
   app.appendChild(el('<div class="stepname">'+step.name+'</div>'));
   app.appendChild(el('<div class="instruction">'+step.ins+'</div>'));
+  if(step.temp) app.appendChild(el('<div class="center" style="margin:8px 0"><span class="tempbadge">🔥 '+step.temp+'</span></div>'));
   if(step.note) app.appendChild(el('<div class="note">'+step.note+'</div>'));
 
   var R=120, C=2*Math.PI*R;
@@ -431,8 +442,8 @@ function renderTimer(){
   var arc=ringWrap.querySelector('#arc'), big=ringWrap.querySelector('#big'), sub=ringWrap.querySelector('#sub');
   var ctrls=el('<div class="ctrls"></div>'); app.appendChild(ctrls);
 
-  function fmt(s){ s=Math.max(0,Math.round(s)); var m=Math.floor(s/60), ss=s%60; return m+':'+(ss<10?'0':'')+ss; }
-  function startStep(){ primeAudio(); state.endAt=Date.now()+totalSec*1000; state.paused=false; state.remain=null; saveState(); getWake(); }
+  function fmt(s){ s=Math.max(0,Math.round(s)); var h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60; if(h>0) return h+'h '+(m<10?'0':'')+m+'m'; return m+':'+(ss<10?'0':'')+ss; }
+  function startStep(){ primeAudio(); state.endAt=Date.now()+totalSec*1000; state.paused=false; state.remain=null; saveState(); if(step.min<=120) getWake(); }
   function nextStep(){
     dropWake();
     if(state.step<steps.length-1){ state.step++; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); }
@@ -442,7 +453,7 @@ function renderTimer(){
   function drawControls(mode){
     ctrls.innerHTML='';
     if(mode==='idle'){
-      var b=el('<button class="btn">Hotovo — spustiť časovač ('+step.min+' min)</button>');
+      var b=el('<button class="btn">Hotovo — spustiť časovač ('+fmtDur(step.min)+')</button>');
       b.onclick=startStep; ctrls.appendChild(b);
     } else if(mode==='running'){
       var p=el('<button class="btn ghost small">Pauza</button>');
