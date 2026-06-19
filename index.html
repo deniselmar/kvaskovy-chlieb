@@ -31,7 +31,7 @@
   .wrap{max-width:520px;margin:0 auto;padding:18px 18px 40px;min-height:100vh;display:flex;flex-direction:column}
   h1{font-size:25px;margin:6px 0 2px;letter-spacing:.3px}
   .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
-  .label{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px}
+  .label{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;display:flex;justify-content:space-between;align-items:center}
 
   .types{display:grid;gap:12px}
   .type{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid transparent;border-radius:18px;padding:16px;cursor:pointer;transition:.15s}
@@ -50,8 +50,6 @@
   .ing{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px}
   .ing:last-child{border-bottom:none}
   .ing .v{font-weight:600;color:var(--crumb)}
-  .ing input{width:84px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:16px;font-weight:600;padding:8px;text-align:right}
-  .ing .unit{color:var(--muted);font-size:14px;margin-left:6px;min-width:24px}
   .ing .nm{flex:1}
 
   .btn{display:block;width:100%;border:none;border-radius:16px;padding:18px;font-size:18px;font-weight:700;background:var(--crust);color:#241408;cursor:pointer;margin-top:14px}
@@ -60,52 +58,102 @@
   .btn.small{padding:14px;font-size:16px}
   .row2{display:flex;gap:10px}
   .row2 .btn{margin-top:0;flex:1}
+  .footer{display:flex;gap:8px;margin-top:10px}
+  .footer .btn{margin-top:0;flex:1;padding:13px 4px;font-size:13px}
   .spacer{flex:1;min-height:14px}
 
   .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
   .top .back{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:6px}
   .pill{font-size:12px;color:var(--muted);background:var(--card);padding:6px 12px;border-radius:20px}
-  .linkbtn{background:none;border:none;color:var(--crust);font-size:15px;font-weight:600;cursor:pointer;padding:6px}
+  .linkbtn{background:none;border:none;color:var(--crust);font-size:14px;font-weight:600;cursor:pointer;padding:6px}
 
-  .progress{display:flex;gap:5px;margin:6px 0 22px}
-  .progress .seg{flex:1;height:6px;border-radius:3px;background:var(--line)}
+  .progress{display:flex;gap:4px;margin:6px 0 22px;flex-wrap:wrap}
+  .progress .seg{flex:1;min-width:10px;height:6px;border-radius:3px;background:var(--line)}
   .progress .seg.done{background:var(--crust)}
   .progress .seg.cur{background:var(--crumb)}
 
   .stepname{font-size:15px;color:var(--crust);font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:center}
   .instruction{font-size:19px;line-height:1.45;text-align:center;margin:14px 6px 8px}
   .note{font-size:14px;color:var(--muted);text-align:center;margin:0 6px 6px;line-height:1.4}
+  .tempbadge{display:inline-block;background:#3a2218;color:#f4b483;border:1px solid #5a3420;font-weight:700;font-size:17px;padding:8px 18px;border-radius:22px}
 
-  .ring{position:relative;width:260px;height:260px;margin:18px auto 6px;max-width:80vw;max-height:80vw}
+  .ring{position:relative;width:250px;height:250px;margin:14px auto 4px;max-width:78vw;max-height:78vw}
   .ring svg{transform:rotate(-90deg);width:100%;height:100%}
   .time{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .time .big{font-size:52px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
+  .time .big{font-size:50px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
   .time .st{font-size:14px;color:var(--muted);margin-top:2px}
   .ring.ringing{animation:pulse 1s infinite}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+  .finishline{text-align:center;color:var(--muted);font-size:14px;min-height:18px;margin-top:2px}
 
   .ctrls{display:flex;gap:10px;margin-top:8px}
   .ctrls .btn{margin-top:0}
+  .backstep{display:block;width:100%;background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:12px;margin-top:4px}
   .done-emoji{font-size:64px;text-align:center;margin:10px}
   .center{text-align:center}
+
   .field{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
   .field:last-child{border-bottom:none}
   .field label{font-size:16px}
   .field .inp{display:flex;align-items:center;gap:8px}
   .field input{width:80px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:17px;font-weight:600;padding:9px;text-align:right}
   .field .u{color:var(--muted);font-size:14px;min-width:28px}
+  .field .u2{color:var(--muted);font-size:13px;margin-left:8px;min-width:64px;text-align:right}
   .hint{font-size:13px;color:var(--muted);background:var(--card);border-radius:14px;padding:12px 14px;line-height:1.45;margin-top:14px}
-  .ritem{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+
+  .ritem{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
   .ritem:last-of-type{border-bottom:none}
   .ritem .nm{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:15px;padding:10px}
   .ritem .am{width:62px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:15px;font-weight:600;padding:10px 8px;text-align:right}
   .ritem .un{width:46px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:14px;padding:10px 4px;text-align:center}
+  .ritem .em{width:50px;text-align:center;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:20px;padding:10px 4px}
   .ritem .del{flex:none;width:36px;height:36px;border:none;border-radius:10px;background:#3a2420;color:#e6a596;font-size:22px;cursor:pointer;line-height:1}
   .ritem .del:active{background:#4a2c26}
+  .ritem .tcol{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+  .ritem .tcol input{background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:14px;padding:9px;width:100%}
   .addrow{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--crust);border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
   .addrow:active{background:var(--card)}
-  .tempbadge{display:inline-block;background:#3a2218;color:#f4b483;border:1px solid #5a3420;font-weight:700;font-size:17px;padding:8px 18px;border-radius:22px}
-  .u2{color:var(--muted);font-size:13px;margin-left:8px;min-width:54px;text-align:right}
+
+  .checkitem{display:flex;align-items:center;gap:13px;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer;font-size:16px}
+  .checkitem:last-child{border-bottom:none}
+  .checkbox{width:26px;height:26px;border-radius:8px;border:2px solid var(--crust);flex:none;display:flex;align-items:center;justify-content:center;color:#241408;font-weight:800;font-size:16px}
+  .checkitem.on .checkbox{background:var(--crust)}
+  .checkitem.on .ctext{color:var(--muted);text-decoration:line-through}
+  .ctext{flex:1}
+  .cval{color:var(--crumb);font-weight:600;font-size:15px}
+  .checkitem.on .cval{color:var(--muted)}
+
+  .planhead{background:var(--card);border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.55}
+  .planhead b{color:var(--crumb)}
+  .planhead .big{color:var(--ok);font-weight:700}
+  .dt{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);font-size:16px;padding:12px;margin-top:6px}
+  .plan{background:var(--card);border-radius:18px;padding:4px 16px;margin-top:8px}
+  .planrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .planrow:last-child{border-bottom:none}
+  .planrow .pt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--crumb);min-width:52px}
+  .planrow .pd{font-size:11px;color:var(--muted);font-weight:400}
+  .planrow .pn{flex:1;font-size:15px}
+  .planrow .pdur{font-size:12px;color:var(--muted)}
+  .planrow.key{background:rgba(185,118,63,.14);margin:0 -16px;padding-left:16px;padding-right:16px}
+  .planrow.fin .pt,.planrow.fin .pn{color:var(--ok)}
+
+  .stars{display:flex;gap:10px;justify-content:center;margin:10px 0}
+  .star{font-size:36px;cursor:pointer;color:var(--line)}
+  .star.on{color:#f4b483}
+  .ta{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);font-size:15px;padding:12px;min-height:80px;margin-top:8px;font-family:inherit;resize:vertical}
+
+  .jentry{background:var(--card);border-radius:14px;padding:13px 15px;margin-bottom:10px}
+  .jhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .jtitle{font-weight:700;color:var(--text);font-size:16px}
+  .jdate{font-size:13px;color:var(--muted);margin-top:1px}
+  .jstars{color:#f4b483;font-size:15px;margin-top:3px;letter-spacing:2px}
+  .jnote{font-size:14px;margin-top:6px;line-height:1.45;white-space:pre-wrap;color:var(--text)}
+  .jdel{background:none;border:none;color:#e6a596;font-size:20px;cursor:pointer;flex:none;padding:0 2px}
+
+  .tipcard{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+  .tipq{font-weight:700;color:var(--crust);margin-bottom:5px;font-size:16px}
+  .tipa{font-size:14px;color:var(--text);line-height:1.5}
+  .empty{color:var(--muted);text-align:center;padding:30px 10px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -116,9 +164,9 @@
 "use strict";
 
 /* ---------- DEFAULTS ---------- */
-var DEF_BASE = { muka:500, voda:350, kvasok:100, sol:10, rasca:5 }; // na 1 bochník
-var DEF_EXTRA = { cibulka:100, cheddar:80 };                        // na 1 bochník
-var DEF_TIMES = [85,30,30,30,30,30,30,15, 15,1440,45,25,20];        // minúty / krok
+var DEF_BASE = { muka:500, voda:350, kvasok:100, sol:10, rasca:5 };
+var DEF_EXTRA = { cibulka:100, cheddar:80 };
+var DEF_TIMES = [85,30,30,30,30,30,30,15, 15,1440,45,25,20];
 
 function baseItems(){ return [
   {name:'Chlebová múka', amt:DEF_BASE.muka,  unit:'g'},
@@ -127,17 +175,16 @@ function baseItems(){ return [
   {name:'Soľ',           amt:DEF_BASE.sol,   unit:'g'},
   {name:'Rasca',         amt:DEF_BASE.rasca, unit:'g'}
 ]; }
+function defTypes(){ return [
+  {id:'klasik',  name:'Klasický',    emoji:'🍞', desc:'Tradičný kváskový s rascou', foldNote:''},
+  {id:'cibulka', name:'S cibuľkou',  emoji:'🧅', desc:'S opraženou cibuľkou', foldNote:'Vmiešaj opraženú a vychladnutú cibuľku.'},
+  {id:'cheddar', name:'S cheddarom', emoji:'🧀', desc:'S nastrúhaným cheddarom', foldNote:'Vmiešaj nastrúhaný cheddar.'}
+]; }
 function defRecipes(){ return {
   klasik:  baseItems(),
   cibulka: baseItems().concat([{name:'Opražená cibuľka',  amt:DEF_EXTRA.cibulka, unit:'g'}]),
   cheddar: baseItems().concat([{name:'Nastrúhaný cheddar', amt:DEF_EXTRA.cheddar, unit:'g'}])
 }; }
-
-var TYPES = {
-  klasik:  { name:'Klasický',   emoji:'🍞', desc:'Tradičný kváskový s rascou', extraKey:null },
-  cibulka: { name:'S cibuľkou', emoji:'🧅', desc:'S opraženou cibuľkou', extraKey:'cibulka', extraLabel:'Opražená cibuľka' },
-  cheddar: { name:'S cheddarom',emoji:'🧀', desc:'S nastrúhaným cheddarom', extraKey:'cheddar', extraLabel:'Nastrúhaný cheddar' }
-};
 
 var STEP_META = [
   {name:'Autolýza',          ins:'Zmiešaj múku s vodou, len kým nie je všetka múka mokrá. Prikry a nechaj odpočívať.', note:'Cesto bude lepkavé a hrudkovité — to je v poriadku.'},
@@ -149,85 +196,109 @@ var STEP_META = [
   {name:'Prekladanie 4 z 4', ins:'Posledné prekladanie — cesto by malo byť hladšie a pružnejšie. Prikry.', note:''},
   {name:'Odstátie',          ins:'Nechaj cesto naposledy v pokoji odstáť pred tvarovaním.', note:''},
   {name:'Tvarovanie',        ins:'Vyklop cesto na pomúčenú dosku, jemne predtvaruj do gule a nechaj chvíľu odpočinúť. Potom vytvaruj finálny bochník a vlož ho spojom nahor do dobre vymúčeného ošatka alebo misy s utierkou.', note:'Povrch cesta aj utierku poriadne pomúč, aby sa neprilepilo.'},
-  {name:'Kysnutie v chladničke', ins:'Ošatok prikry (igelitovým vreckom alebo utierkou) a daj do chladničky pomaly kysnúť 24 hodín. Cesto získa chuť a lepšie sa zareže.', note:'⏰ Časovač beží aj keď appku zavrieš. Pokojne telefón odlož a otvor appku až zajtra — ukáže, že krok je hotový.'},
-  {name:'Predhrev rúry',     ins:'Rozohrej rúru na plný výkon. Nech sa poriadne prehreje (10–15 min po dosiahnutí teploty).', note:'Keramická nádoba: ak máš neglazovaný Römertopf, NEpredhrievaj ho prázdny — namoč ho ~10 min vo vode a vlož do studenej/vlažnej rúry. Glazovanú nádobu/cloche na chlieb môžeš predhriať spolu s rúrou.', temp:'250 °C'},
+  {name:'Kysnutie v chladničke', ins:'Ošatok prikry (igelitovým vreckom alebo utierkou) a daj do chladničky pomaly kysnúť 24 hodín. Cesto získa chuť a lepšie sa zareže.', note:'⏰ Časovač beží aj keď appku zavrieš. Pokojne telefón odlož a otvor appku až zajtra.'},
+  {name:'Predhrev rúry',     ins:'Rozohrej rúru na plný výkon. Nech sa poriadne prehreje (10–15 min po dosiahnutí teploty).', note:'Keramická nádoba: neglazovaný Römertopf NEpredhrievaj prázdny — namoč ho ~10 min vo vode a vlož do studenej/vlažnej rúry. Glazovanú nádobu/cloche môžeš predhriať spolu s rúrou.', temp:'250 °C'},
   {name:'Pečenie pod pokrievkou', ins:'Cesto vyber z chladničky, vyklop na papier na pečenie a ostrým nožom alebo žiletkou zarež vrch. Vlož do nádoby, prikry pokrievkou a peč pod pokrievkou.', note:'Para pod pokrievkou spraví krásnu chrumkavú kôrku a pekné „ucho".', temp:'250 °C'},
   {name:'Pečenie bez pokrievky',  ins:'Odkry pokrievku a dopeč chlieb dozlatista. Hotový bochník po poklepaní zospodu znie duto.', note:'Pred krájaním nechaj vychladnúť aspoň hodinu na mriežke — vnútro ešte dozrieva.', temp:'220 °C'}
 ];
 
-/* ---------- SETTINGS (persist) ---------- */
+var TIPS = [
+  {q:'Kvások mi poriadne nekysne', a:'Musí byť aktívny — po prikŕmení by mal do 4–8 h zdvojnásobiť objem a byť bublinkový. Prikrm ho v pomere 1:1:1 (kvások:múka:voda) a nechaj v teple ~25 °C. Pred pečením urob „float test": lyžička kvásku má plávať na vode.'},
+  {q:'Cesto je príliš riedke a lepkavé', a:'Kváskové cesto je lepkavejšie ako droždlové — pracuj mokrými rukami. Ak je naozaj redšie, nabudúce uber trochu vody (v Upraviť recept) alebo pridaj prekladanie navyše. Pomáha aj dlhšia autolýza.'},
+  {q:'Chlieb nemá veľké diery', a:'Dôvody: slabý kvások, málo vyvinutý lepok (málo prekladaní), alebo prekysnuté/nedokysnuté cesto. Pomáha vyššia hydratácia, jemné tvarovanie (nevytlačiť všetok plyn) a dobré zarezanie.'},
+  {q:'Kôrka je tvrdá alebo bledá', a:'Bledá = krátky čas/nízka teplota alebo chýba para → peč pod pokrievkou. Príliš tvrdá = dlho bez pokrievky; skráť záverečné pečenie alebo zníž teplotu o 10–20 °C.'},
+  {q:'Spodok sa pripaľuje', a:'Daj pod nádobu plech alebo kameň, prípadne v druhej polovici pečenia zníž teplotu. Pri keramike nedávaj rovno na dno rúry.'},
+  {q:'Ako viem, že je upečený?', a:'Po poklepaní zospodu znie duto. Vnútorná teplota ~96–98 °C. A hlavne — nechaj vychladnúť aspoň hodinu pred krájaním, inak je vnútro gumové.'}
+];
+
+/* ---------- SETTINGS ---------- */
 var SET_KEY='kchlieb-settings';
 var settings = loadSettings();
 function loadSettings(){
-  var s={ recipes:defRecipes(), times:DEF_TIMES.slice() };
+  var s={ types:defTypes(), recipes:defRecipes(), times:DEF_TIMES.slice() };
   try{
     var raw=localStorage.getItem(SET_KEY);
     if(raw){ var p=JSON.parse(raw);
       if(Array.isArray(p.times)){ for(var ti=0; ti<s.times.length; ti++){ if(typeof p.times[ti]==='number' && p.times[ti]>=0) s.times[ti]=p.times[ti]; } }
-      if(p.recipes && p.recipes.klasik){
-        ['klasik','cibulka','cheddar'].forEach(function(k){
-          if(Array.isArray(p.recipes[k])) s.recipes[k]=p.recipes[k].map(function(it){ return {name:String(it.name||''), amt:(+it.amt||0), unit:String(it.unit||'')}; });
-        });
-      } else if(p.base || p.extra){ // migrácia zo staršej verzie (base/extra)
+      if(Array.isArray(p.types) && p.types.length){
+        s.types=p.types.map(function(t){ return {id:String(t.id), name:String(t.name||''), emoji:String(t.emoji||'🍞'), desc:String(t.desc||''), foldNote:String(t.foldNote||'')}; });
+      }
+      if(p.recipes && Object.keys(p.recipes).length){
+        s.recipes={};
+        Object.keys(p.recipes).forEach(function(k){ if(Array.isArray(p.recipes[k])) s.recipes[k]=p.recipes[k].map(function(it){ return {name:String(it.name||''), amt:(+it.amt||0), unit:String(it.unit||'')}; }); });
+      } else if(p.base || p.extra){
         var b=Object.assign({},DEF_BASE,p.base||{}), e=Object.assign({},DEF_EXTRA,p.extra||{});
         var base=[
-          {name:'Chlebová múka',amt:b.muka,unit:'g'},
-          {name:'Vlažná voda',amt:b.voda,unit:'ml'},
-          {name:'Aktívny kvások',amt:b.kvasok,unit:'g'},
-          {name:'Soľ',amt:b.sol,unit:'g'},
-          {name:'Rasca',amt:b.rasca,unit:'g'}
+          {name:'Chlebová múka',amt:b.muka,unit:'g'},{name:'Vlažná voda',amt:b.voda,unit:'ml'},
+          {name:'Aktívny kvások',amt:b.kvasok,unit:'g'},{name:'Soľ',amt:b.sol,unit:'g'},{name:'Rasca',amt:b.rasca,unit:'g'}
         ];
         var cp=function(){ return base.map(function(it){ return {name:it.name,amt:it.amt,unit:it.unit}; }); };
         s.recipes={ klasik:cp(), cibulka:cp().concat([{name:'Opražená cibuľka',amt:e.cibulka,unit:'g'}]), cheddar:cp().concat([{name:'Nastrúhaný cheddar',amt:e.cheddar,unit:'g'}]) };
       }
+      // každý druh musí mať recept
+      s.types.forEach(function(t){ if(!Array.isArray(s.recipes[t.id])) s.recipes[t.id]=baseItems(); });
     }
   }catch(e){}
   return s;
 }
 function saveSettings(){ try{ localStorage.setItem(SET_KEY, JSON.stringify(settings)); }catch(e){} }
+function getType(id){ for(var i=0;i<settings.types.length;i++){ if(settings.types[i].id===id) return settings.types[i]; } return settings.types[0]; }
 
-/* ---------- RUN STATE (persist) ---------- */
+/* ---------- JOURNAL ---------- */
+var J_KEY='kchlieb-journal';
+function loadJournal(){ try{ return JSON.parse(localStorage.getItem(J_KEY))||[]; }catch(e){ return []; } }
+function saveJournal(j){ try{ localStorage.setItem(J_KEY, JSON.stringify(j)); }catch(e){} }
+
+/* ---------- RUN STATE ---------- */
 var ST_KEY='kchlieb-state';
-var state = loadState() || { screen:'home', type:'klasik', count:1, step:0, endAt:null, paused:false, remain:null };
+var state = loadState() || newRun();
+function newRun(){ return { screen:'home', type:(settings.types[0]||{}).id||'klasik', count:1, step:0, endAt:null, paused:false, remain:null }; }
 function saveState(){ try{ localStorage.setItem(ST_KEY, JSON.stringify(state)); }catch(e){} }
 function loadState(){ try{ var s=localStorage.getItem(ST_KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
-function resetRun(){ state={ screen:'home', type:state.type, count:state.count, step:0, endAt:null, paused:false, remain:null }; saveState(); }
+function resetRun(){ state=Object.assign(newRun(),{ type:state.type, count:state.count }); saveState(); }
 
 /* ---------- helpers ---------- */
 function fmtNum(n){ n=Math.round(n*10)/10; return String(n); }
-function recipeList(typeKey,count){
-  var arr=settings.recipes[typeKey]||[];
-  return arr.map(function(it){ return {n:it.name, v:fmtNum(it.amt*count)+(it.unit?' '+it.unit:'')}; });
-}
-function buildSteps(typeKey){
-  var t=TYPES[typeKey];
+function fmtDur(mins){ mins=Math.round(mins); var h=Math.floor(mins/60), m=mins%60; return ((h?h+' h ':'')+(m?m+' min':(h?'':'0 min'))).trim(); }
+function recipeList(typeId,count){ var arr=settings.recipes[typeId]||[]; return arr.map(function(it){ return {n:it.name, v:fmtNum(it.amt*count)+(it.unit?' '+it.unit:'')}; }); }
+function buildSteps(typeId){
+  var t=getType(typeId);
   return STEP_META.map(function(m,i){
     var ins=m.ins;
-    if(i===3 && t.extraKey==='cibulka') ins+=' Vmiešaj opraženú a vychladnutú cibuľku.';
-    if(i===3 && t.extraKey==='cheddar') ins+=' Vmiešaj nastrúhaný cheddar.';
+    if(i===3 && t.foldNote) ins+=' '+t.foldNote;
     return { name:m.name, ins:ins, note:m.note, min:settings.times[i], temp:m.temp };
   });
 }
 function totalMin(){ return settings.times.reduce(function(a,b){return a+(+b||0);},0); }
-function fmtDur(mins){ var h=Math.floor(mins/60), m=mins%60; return ((h?h+' h ':'')+(m?m+' min':(h?'':'0 min'))).trim(); }
+function cumBefore(i){ var s=0; for(var k=0;k<i;k++) s+=(+settings.times[k]||0); return s; }
+function clockTime(d){ var h=d.getHours(), m=d.getMinutes(); return h+':'+(m<10?'0':'')+m; }
+function dayLabel(d, base){
+  var a=new Date(base.getFullYear(),base.getMonth(),base.getDate());
+  var b=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  var diff=Math.round((b-a)/86400000);
+  if(diff===0) return 'dnes'; if(diff===1) return 'zajtra'; if(diff===2) return 'pozajtra'; if(diff===-1) return 'včera';
+  return ['nedeľa','pondelok','utorok','streda','štvrtok','piatok','sobota'][d.getDay()];
+}
 
 /* ---------- AUDIO / WAKE / NOTIFY ---------- */
-var actx=null, wake=null;
+var actx=null, wake=null, alarmTimer=null;
 function primeAudio(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
 function beep(){
   try{
     primeAudio();
-    var t=actx.currentTime;
-    for(var i=0;i<4;i++){
+    var t=actx.currentTime, freqs=[880,1100,880,1100,880,1100];
+    for(var i=0;i<freqs.length;i++){
       var o=actx.createOscillator(), g=actx.createGain();
-      o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(actx.destination);
-      var s=t+i*0.5;
-      g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(0.6,s+0.05); g.gain.linearRampToValueAtTime(0,s+0.4);
-      o.start(s); o.stop(s+0.42);
+      o.type='sine'; o.frequency.value=freqs[i]; o.connect(g); g.connect(actx.destination);
+      var s=t+i*0.32;
+      g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(0.7,s+0.04); g.gain.linearRampToValueAtTime(0,s+0.28);
+      o.start(s); o.stop(s+0.3);
     }
   }catch(e){}
-  try{ if(navigator.vibrate) navigator.vibrate([400,200,400,200,400]); }catch(e){}
+  try{ if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]); }catch(e){}
 }
+function startAlarm(){ stopAlarm(); beep(); alarmTimer=setInterval(function(){ if(document.visibilityState==='visible') beep(); }, 4000); }
+function stopAlarm(){ if(alarmTimer){ clearInterval(alarmTimer); alarmTimer=null; } }
 async function getWake(){ try{ if('wakeLock' in navigator){ wake=await navigator.wakeLock.request('screen'); } }catch(e){} }
 function dropWake(){ try{ if(wake){ wake.release(); wake=null; } }catch(e){} }
 function notify(title,body){
@@ -243,34 +314,48 @@ document.addEventListener('visibilitychange',function(){
 
 /* ---------- RENDER ---------- */
 var app=document.getElementById('app');
+var ticker=null;
 function el(html){ var d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
 function go(screen){ state.screen=screen; saveState(); render(); }
 
 function render(){
   if(ticker){ clearInterval(ticker); ticker=null; }
-  if(state.screen==='home') return renderHome();
-  if(state.screen==='recipe') return renderRecipe();
-  if(state.screen==='editRecipe') return renderEditRecipe();
-  if(state.screen==='editTimes') return renderEditTimes();
-  if(state.screen==='done') return renderDone();
-  return renderTimer();
+  stopAlarm();
+  if(!getType(state.type)) state.type=(settings.types[0]||{}).id;
+  switch(state.screen){
+    case 'home': return renderHome();
+    case 'types': return renderEditTypes();
+    case 'recipe': return renderRecipe();
+    case 'editRecipe': return renderEditRecipe();
+    case 'editTimes': return renderEditTimes();
+    case 'plan': return renderPlan();
+    case 'checklist': return renderChecklist();
+    case 'journal': return renderJournal();
+    case 'tips': return renderTips();
+    case 'done': return renderDone();
+    default: return renderTimer();
+  }
 }
 
 function renderHome(){
   dropWake();
   app.innerHTML='';
   app.appendChild(el('<div><h1>Kváskový chlieb 🍞</h1><p class="sub">Vyber druh a počet — appka ťa krok za krokom prevedie a sama spustí časovače.</p></div>'));
-  app.appendChild(el('<div class="label">Druh chleba</div>'));
+
+  var lab=el('<div class="label"><span>Druh chleba</span></div>');
+  var editTypes=el('<button class="linkbtn">upraviť druhy</button>'); editTypes.onclick=function(){ go('types'); };
+  lab.appendChild(editTypes);
+  app.appendChild(lab);
+
   var types=el('<div class="types"></div>');
-  Object.keys(TYPES).forEach(function(k){
-    var t=TYPES[k];
-    var c=el('<div class="type'+(state.type===k?' active':'')+'"><div class="emoji">'+t.emoji+'</div><div><div class="tt">'+t.name+'</div><div class="td">'+t.desc+'</div></div></div>');
-    c.onclick=function(){ state.type=k; saveState(); renderHome(); };
+  settings.types.forEach(function(t){
+    var c=el('<div class="type'+(state.type===t.id?' active':'')+'"><div class="emoji">'+(t.emoji||'🍞')+'</div><div><div class="tt">'+(t.name||'(bez názvu)')+'</div>'+(t.desc?'<div class="td">'+t.desc+'</div>':'')+'</div></div>');
+    c.onclick=function(){ state.type=t.id; saveState(); renderHome(); };
     types.appendChild(c);
   });
   app.appendChild(types);
 
-  app.appendChild(el('<div class="label">Počet bochníkov</div>'));
+  app.appendChild(el('<div class="label"><span>Počet bochníkov</span></div>'));
   var sp=el('<div class="stepper"></div>');
   var minus=el('<button class="rnd">−</button>'), plus=el('<button class="rnd">+</button>');
   var cnt=el('<div><div class="cnt">'+state.count+'</div><div class="cntl center">'+(state.count===1?'bochník':(state.count<5?'bochníky':'bochníkov'))+'</div></div>');
@@ -280,69 +365,131 @@ function renderHome(){
   app.appendChild(sp);
 
   app.appendChild(el('<div class="spacer"></div>'));
-  var goBtn=el('<button class="btn">Zobraziť recept →</button>');
-  goBtn.onclick=function(){ go('recipe'); };
+  var goBtn=el('<button class="btn">Zobraziť recept →</button>'); goBtn.onclick=function(){ go('recipe'); };
   app.appendChild(goBtn);
-  var edit=el('<button class="btn ghost small">⚙︎ Upraviť recept a časy</button>');
-  edit.onclick=function(){ go('editRecipe'); };
-  app.appendChild(edit);
+
+  var foot=el('<div class="footer"></div>');
+  var bj=el('<button class="btn ghost small">📖 Denník</button>'); bj.onclick=function(){ go('journal'); };
+  var bt=el('<button class="btn ghost small">💡 Tipy</button>'); bt.onclick=function(){ go('tips'); };
+  var bs=el('<button class="btn ghost small">🔔 Test zvuku</button>'); bs.onclick=function(){ primeAudio(); beep(); };
+  foot.appendChild(bj); foot.appendChild(bt); foot.appendChild(bs);
+  app.appendChild(foot);
+}
+
+function backTop(label, onBack, pillText){
+  var top=el('<div class="top"><button class="back">‹ '+label+'</button>'+(pillText?'<span class="pill">'+pillText+'</span>':'<span></span>')+'</div>');
+  top.querySelector('.back').onclick=onBack;
+  return top;
 }
 
 function renderRecipe(){
   app.innerHTML='';
-  var t=TYPES[state.type];
-  var top=el('<div class="top"><button class="back">‹ Späť</button><span class="pill">~'+fmtDur(totalMin())+'</span></div>');
-  top.querySelector('.back').onclick=function(){ go('home'); };
-  app.appendChild(top);
-  app.appendChild(el('<div><h1>'+t.emoji+' '+t.name+'</h1><p class="sub">'+state.count+'× bochník · suroviny:</p></div>'));
+  var t=getType(state.type);
+  app.appendChild(backTop('Späť', function(){ go('home'); }, '~'+fmtDur(totalMin())));
+  app.appendChild(el('<div><h1>'+(t.emoji||'🍞')+' '+t.name+'</h1><p class="sub">'+state.count+'× bochník · suroviny:</p></div>'));
 
   var box=el('<div class="recipe"></div>');
-  recipeList(state.type,state.count).forEach(function(r){
-    box.appendChild(el('<div class="ing"><span class="nm">'+r.n+'</span><span class="v">'+r.v+'</span></div>'));
-  });
+  recipeList(state.type,state.count).forEach(function(r){ box.appendChild(el('<div class="ing"><span class="nm">'+r.n+'</span><span class="v">'+r.v+'</span></div>')); });
   app.appendChild(box);
 
   var er=el('<div class="row2" style="margin-top:14px"></div>');
-  var b1=el('<button class="btn ghost small">Upraviť recept</button>');
-  var b2=el('<button class="btn ghost small">Upraviť časy</button>');
-  b1.onclick=function(){ go('editRecipe'); };
-  b2.onclick=function(){ go('editTimes'); };
-  er.appendChild(b1); er.appendChild(b2);
-  app.appendChild(er);
+  var b1=el('<button class="btn ghost small">Upraviť recept</button>'); b1.onclick=function(){ go('editRecipe'); };
+  var b2=el('<button class="btn ghost small">Upraviť časy</button>'); b2.onclick=function(){ go('editTimes'); };
+  er.appendChild(b1); er.appendChild(b2); app.appendChild(er);
+
+  var bp=el('<button class="btn ghost small">📋 Prehľad a plánovanie</button>'); bp.onclick=function(){ go('plan'); };
+  app.appendChild(bp);
 
   app.appendChild(el('<div class="spacer"></div>'));
   var start=el('<button class="btn">Začať pečenie 🥖</button>');
-  start.onclick=function(){
-    primeAudio();
-    if('Notification' in window && Notification.permission==='default'){ try{ Notification.requestPermission(); }catch(e){} }
-    state.screen='timer'; state.step=0; state.endAt=null; state.paused=false; state.remain=null; saveState(); render();
-  };
+  start.onclick=function(){ primeAudio(); if('Notification' in window && Notification.permission==='default'){ try{ Notification.requestPermission(); }catch(e){} } go('checklist'); };
   app.appendChild(start);
 }
 
-function numInput(val){
-  var i=el('<input type="number" inputmode="decimal" step="any" min="0">');
-  i.value=val; return i;
+function renderChecklist(){
+  app.innerHTML='';
+  app.appendChild(backTop('Späť', function(){ go('recipe'); }, null));
+  app.appendChild(el('<div><h1>Priprav si suroviny</h1><p class="sub">Odškrtni si, čo už máš nachystané.</p></div>'));
+  var box=el('<div class="recipe"></div>');
+  recipeList(state.type,state.count).forEach(function(r){
+    var row=el('<div class="checkitem"><span class="checkbox"></span><span class="ctext">'+r.n+'</span><span class="cval">'+r.v+'</span></div>');
+    row.onclick=function(){ row.classList.toggle('on'); row.querySelector('.checkbox').textContent=row.classList.contains('on')?'✓':''; };
+    box.appendChild(row);
+  });
+  app.appendChild(box);
+  var bs=el('<button class="btn ghost small">🔔 Test zvuku budíka</button>'); bs.onclick=function(){ primeAudio(); beep(); };
+  app.appendChild(bs);
+  app.appendChild(el('<div class="spacer"></div>'));
+  var start=el('<button class="btn">Začať 🥖</button>');
+  start.onclick=function(){ primeAudio(); state.screen='timer'; state.step=0; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); };
+  app.appendChild(start);
 }
+
+function renderPlan(){
+  app.innerHTML='';
+  app.appendChild(backTop('Späť', function(){ go('recipe'); }, '~'+fmtDur(totalMin())));
+  app.appendChild(el('<div><h1>Prehľad a plánovanie</h1><p class="sub">Celý postup a časy. Zadaj, kedy chceš mať chlieb hotový, a appka ti povie, kedy začať.</p></div>'));
+
+  var head=el('<div class="planhead"></div>');
+  app.appendChild(head);
+  var dt=el('<input class="dt" type="datetime-local">');
+  app.appendChild(el('<div class="label"><span>Chcem hotový chlieb</span></div>'));
+  app.appendChild(dt);
+  var planBox=el('<div class="plan"></div>');
+  app.appendChild(el('<div class="label"><span>Časový plán</span></div>'));
+  app.appendChild(planBox);
+
+  var steps=buildSteps(state.type);
+  var T=totalMin();
+
+  function paint(){
+    var now=new Date();
+    var start, target, targetMode=false;
+    if(dt.value){ target=new Date(dt.value); if(!isNaN(target)){ targetMode=true; start=new Date(target.getTime()-T*60000); } }
+    if(!start){ start=now; target=new Date(now.getTime()+T*60000); }
+
+    head.innerHTML='';
+    if(targetMode){
+      head.appendChild(el('<div>Aby si mal/a hotovo <b>'+dayLabel(target,now)+' o '+clockTime(target)+'</b>:</div>'));
+      head.appendChild(el('<div style="margin-top:6px">Začni miesiť <span class="big">'+dayLabel(start,now)+' o '+clockTime(start)+'</span></div>'));
+      if(start.getTime()<now.getTime()-60000) head.appendChild(el('<div style="margin-top:6px;color:#e6a596">⚠️ To je už v minulosti — buď začni hneď, alebo vyber neskorší čas.</div>'));
+    } else {
+      head.appendChild(el('<div>Ak začneš <b>teraz</b> (dnes o '+clockTime(now)+'), chlieb je hotový:</div>'));
+      head.appendChild(el('<div style="margin-top:6px"><span class="big">'+dayLabel(target,now)+' o '+clockTime(target)+'</span></div>'));
+    }
+
+    planBox.innerHTML='';
+    steps.forEach(function(st,i){
+      var d=new Date(start.getTime()+cumBefore(i)*60000);
+      var isKey = /chladni|Predhrev|pod pokrievkou/i.test(st.name);
+      var row=el('<div class="planrow'+(isKey?' key':'')+'"><span class="pt">'+clockTime(d)+'<div class="pd">'+dayLabel(d,now)+'</div></span><span class="pn">'+st.name+'</span><span class="pdur">'+fmtDur(st.min)+'</span></div>');
+      planBox.appendChild(row);
+    });
+    var fin=new Date(start.getTime()+T*60000);
+    planBox.appendChild(el('<div class="planrow fin"><span class="pt">'+clockTime(fin)+'<div class="pd">'+dayLabel(fin,now)+'</div></span><span class="pn">🥖 Hotový chlieb</span><span class="pdur"></span></div>'));
+  }
+  dt.addEventListener('input', paint);
+  paint();
+
+  app.appendChild(el('<div class="spacer"></div>'));
+  var start=el('<button class="btn">Začať pečenie 🥖</button>');
+  start.onclick=function(){ primeAudio(); go('checklist'); };
+  app.appendChild(start);
+}
+
+function numInput(val){ var i=el('<input type="number" inputmode="decimal" step="any" min="0">'); i.value=val; return i; }
 
 function renderEditRecipe(){
   app.innerHTML='';
-  var typeKey=state.type, t=TYPES[typeKey];
-  var draft=(settings.recipes[typeKey]||[]).map(function(it){ return {name:it.name, amt:it.amt, unit:it.unit}; });
-
+  var typeId=state.type, t=getType(typeId);
+  var draft=(settings.recipes[typeId]||[]).map(function(it){ return {name:it.name, amt:it.amt, unit:it.unit}; });
   var top=el('<div class="top"><button class="back">‹ Späť</button><button class="linkbtn">Pôvodné</button></div>');
   top.querySelector('.back').onclick=function(){ go('recipe'); };
   app.appendChild(top);
-  app.appendChild(el('<div><h1>Upraviť recept</h1><p class="sub">'+t.emoji+' '+t.name+' · množstvá sú <b>na 1 bochník</b>. Položky môžeš pridať aj zmazať.</p></div>'));
+  app.appendChild(el('<div><h1>Upraviť recept</h1><p class="sub">'+(t.emoji||'🍞')+' '+t.name+' · množstvá sú <b>na 1 bochník</b>. Položky môžeš pridať aj zmazať.</p></div>'));
+  var box=el('<div class="recipe"></div>'); app.appendChild(box);
 
-  var box=el('<div class="recipe"></div>');
-  app.appendChild(box);
-
-  function sync(){
-    draft=[].slice.call(box.querySelectorAll('.ritem')).map(function(r){
-      return { name:r.querySelector('.nm').value, amt:parseFloat(r.querySelector('.am').value)||0, unit:r.querySelector('.un').value };
-    });
-  }
+  function sync(){ draft=[].slice.call(box.querySelectorAll('.ritem')).map(function(r){ return { name:r.querySelector('.nm').value, amt:parseFloat(r.querySelector('.am').value)||0, unit:r.querySelector('.un').value }; }); }
   function paint(){
     box.innerHTML='';
     draft.forEach(function(it,idx){
@@ -350,42 +497,29 @@ function renderEditRecipe(){
       var nm=el('<input class="nm" type="text" placeholder="názov suroviny">'); nm.value=it.name;
       var am=el('<input class="am" type="number" inputmode="decimal" step="any" min="0">'); am.value=it.amt;
       var un=el('<input class="un" type="text" placeholder="g">'); un.value=it.unit;
-      var del=el('<button class="del" title="Zmazať">×</button>');
-      del.onclick=function(){ sync(); draft.splice(idx,1); paint(); };
-      row.appendChild(nm); row.appendChild(am); row.appendChild(un); row.appendChild(del);
-      box.appendChild(row);
+      var del=el('<button class="del" title="Zmazať">×</button>'); del.onclick=function(){ sync(); draft.splice(idx,1); paint(); };
+      row.appendChild(nm); row.appendChild(am); row.appendChild(un); row.appendChild(del); box.appendChild(row);
     });
     if(!draft.length) box.appendChild(el('<div class="note" style="padding:14px 0">Žiadne položky — pridaj prvú nižšie.</div>'));
   }
   paint();
-
   var add=el('<button class="addrow">＋ Pridať položku</button>');
   add.onclick=function(){ sync(); draft.push({name:'',amt:0,unit:'g'}); paint(); var ins=box.querySelectorAll('.ritem .nm'); if(ins.length) ins[ins.length-1].focus(); };
   app.appendChild(add);
-
-  top.querySelector('.linkbtn').onclick=function(){
-    if(confirm('Vrátiť pôvodný recept pre: '+t.name+'?')){ settings.recipes[typeKey]=defRecipes()[typeKey]; saveSettings(); renderEditRecipe(); }
-  };
-
+  top.querySelector('.linkbtn').onclick=function(){ if(confirm('Vrátiť pôvodný recept pre: '+t.name+'?')){ settings.recipes[typeId]=(defRecipes()[typeId]||baseItems()); saveSettings(); renderEditRecipe(); } };
   app.appendChild(el('<div class="spacer"></div>'));
   var save=el('<button class="btn">Uložiť</button>');
-  save.onclick=function(){
-    sync();
-    settings.recipes[typeKey]=draft.filter(function(it){ return it.name.trim()!==''; });
-    saveSettings(); go('recipe');
-  };
+  save.onclick=function(){ sync(); settings.recipes[typeId]=draft.filter(function(it){ return it.name.trim()!==''; }); saveSettings(); go('recipe'); };
   app.appendChild(save);
 }
 
 function renderEditTimes(){
   app.innerHTML='';
   var top=el('<div class="top"><button class="back">‹ Späť</button><button class="linkbtn">Pôvodné</button></div>');
-  top.querySelector('.back').onclick=function(){ go(stateBackFromEdit()); };
+  top.querySelector('.back').onclick=function(){ go('recipe'); };
   app.appendChild(top);
   app.appendChild(el('<div><h1>Upraviť časy</h1><p class="sub">Čas každého kroku v minútach.</p></div>'));
-
-  var box=el('<div class="recipe"></div>');
-  var inputs=[];
+  var box=el('<div class="recipe"></div>'); var inputs=[];
   STEP_META.forEach(function(m,i){
     var row=el('<div class="field"><label>'+m.name+'</label></div>');
     var w=el('<span class="inp"></span>');
@@ -397,23 +531,69 @@ function renderEditTimes(){
     row.appendChild(w); box.appendChild(row);
   });
   app.appendChild(box);
-  app.appendChild(el('<div class="hint">🌡️ V lete je v kuchyni teplejšie a cesto kysne rýchlejšie — skús kratšie časy prekladania (napr. 20–25 min) a kratšiu autolýzu. V zime naopak časy predĺž.</div>'));
+  app.appendChild(el('<div class="hint">🌡️ V lete je v kuchyni teplejšie a cesto kysne rýchlejšie — skús kratšie časy prekladania (napr. 20–25 min). V zime naopak časy predĺž. Kysnutie v chladničke meň pokojne medzi 12–48 h podľa chuti.</div>'));
+  top.querySelector('.linkbtn').onclick=function(){ if(confirm('Vrátiť pôvodné časy?')){ settings.times=DEF_TIMES.slice(); saveSettings(); renderEditTimes(); } };
+  app.appendChild(el('<div class="spacer"></div>'));
+  var save=el('<button class="btn">Uložiť</button>');
+  save.onclick=function(){ inputs.forEach(function(inp,i){ var v=parseInt(inp.value,10); if(!isNaN(v)&&v>=0) settings.times[i]=v; }); saveSettings(); go('recipe'); };
+  app.appendChild(save);
+}
 
-  top.querySelector('.linkbtn').onclick=function(){
-    if(confirm('Vrátiť pôvodné časy?')){ settings.times=DEF_TIMES.slice(); saveSettings(); renderEditTimes(); }
-  };
+function renderEditTypes(){
+  app.innerHTML='';
+  var draft=settings.types.map(function(t){ return {id:t.id, name:t.name, emoji:t.emoji, desc:t.desc, foldNote:t.foldNote}; });
+  var top=el('<div class="top"><button class="back">‹ Späť</button><span></span></div>');
+  top.querySelector('.back').onclick=function(){ go('home'); };
+  app.appendChild(top);
+  app.appendChild(el('<div><h1>Druhy chleba</h1><p class="sub">Pridaj, premenuj alebo zmaž druh. Každý má svoj vlastný recept.</p></div>'));
+  var box=el('<div class="recipe"></div>'); app.appendChild(box);
 
+  function sync(){
+    var rows=box.querySelectorAll('.ritem');
+    draft=[].slice.call(rows).map(function(r,i){
+      return { id:draft[i]?draft[i].id:null, emoji:r.querySelector('.em').value||'🍞', name:r.querySelector('.tname').value, desc:r.querySelector('.tdesc').value, foldNote:r.querySelector('.tfold').value };
+    });
+  }
+  function paint(){
+    box.innerHTML='';
+    draft.forEach(function(t,idx){
+      var row=el('<div class="ritem"></div>');
+      var em=el('<input class="em" type="text" maxlength="2">'); em.value=t.emoji||'🍞';
+      var col=el('<div class="tcol"></div>');
+      var nm=el('<input class="tname" type="text" placeholder="názov druhu">'); nm.value=t.name||'';
+      var ds=el('<input class="tdesc" type="text" placeholder="krátky popis (nepovinné)">'); ds.value=t.desc||'';
+      var fd=el('<input class="tfold" type="text" placeholder="čo vmiešať pri prekladaní (nepovinné)">'); fd.value=t.foldNote||'';
+      col.appendChild(nm); col.appendChild(ds); col.appendChild(fd);
+      var del=el('<button class="del" title="Zmazať">×</button>');
+      del.onclick=function(){ if(draft.length<=1){ alert('Musí zostať aspoň jeden druh.'); return; } if(confirm('Zmazať druh '+(t.name||'')+' aj s jeho receptom?')){ sync(); draft.splice(idx,1); paint(); } };
+      row.appendChild(em); row.appendChild(col); row.appendChild(del); box.appendChild(row);
+    });
+  }
+  paint();
+  var add=el('<button class="addrow">＋ Pridať druh</button>');
+  add.onclick=function(){ sync(); draft.push({id:null, emoji:'🍞', name:'', desc:'', foldNote:''}); paint(); };
+  app.appendChild(add);
   app.appendChild(el('<div class="spacer"></div>'));
   var save=el('<button class="btn">Uložiť</button>');
   save.onclick=function(){
-    inputs.forEach(function(inp,i){ var v=parseInt(inp.value,10); if(!isNaN(v)&&v>=0) settings.times[i]=v; });
-    saveSettings(); go('recipe');
+    sync();
+    var clean=draft.filter(function(t){ return (t.name||'').trim()!==''; });
+    if(!clean.length){ alert('Pridaj aspoň jeden druh s názvom.'); return; }
+    var usedIds={};
+    clean.forEach(function(t){
+      if(!t.id){ t.id='typ'+Date.now()+Math.floor(Math.random()*1000); }
+      usedIds[t.id]=true;
+      if(!Array.isArray(settings.recipes[t.id])) settings.recipes[t.id]=baseItems();
+    });
+    // zmaž recepty zmazaných druhov
+    Object.keys(settings.recipes).forEach(function(k){ if(!usedIds[k]) delete settings.recipes[k]; });
+    settings.types=clean.map(function(t){ return {id:t.id, name:t.name.trim(), emoji:(t.emoji||'🍞').trim()||'🍞', desc:(t.desc||'').trim(), foldNote:(t.foldNote||'').trim()}; });
+    if(!getType(state.type)) state.type=settings.types[0].id;
+    saveSettings(); saveState(); go('home');
   };
   app.appendChild(save);
 }
-function stateBackFromEdit(){ return 'recipe'; }
 
-var ticker=null;
 function renderTimer(){
   app.innerHTML='';
   var steps=buildSteps(state.type);
@@ -440,66 +620,115 @@ function renderTimer(){
     '</svg><div class="time"><div class="big" id="big">--:--</div><div class="st" id="sub"></div></div></div>');
   app.appendChild(ringWrap);
   var arc=ringWrap.querySelector('#arc'), big=ringWrap.querySelector('#big'), sub=ringWrap.querySelector('#sub');
+  var finishLine=el('<div class="finishline"></div>'); app.appendChild(finishLine);
   var ctrls=el('<div class="ctrls"></div>'); app.appendChild(ctrls);
+
+  if(state.step>0){
+    var bk=el('<button class="backstep">‹ Predchádzajúci krok</button>');
+    bk.onclick=function(){ stopAlarm(); dropWake(); state.step--; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); };
+    app.appendChild(bk);
+  }
 
   function fmt(s){ s=Math.max(0,Math.round(s)); var h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60; if(h>0) return h+'h '+(m<10?'0':'')+m+'m'; return m+':'+(ss<10?'0':'')+ss; }
   function startStep(){ primeAudio(); state.endAt=Date.now()+totalSec*1000; state.paused=false; state.remain=null; saveState(); if(step.min<=120) getWake(); }
-  function nextStep(){
-    dropWake();
-    if(state.step<steps.length-1){ state.step++; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); }
-    else { state.screen='done'; saveState(); render(); }
-  }
+  function nextStep(){ stopAlarm(); dropWake(); if(state.step<steps.length-1){ state.step++; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); } else { state.screen='done'; saveState(); render(); } }
 
   function drawControls(mode){
     ctrls.innerHTML='';
     if(mode==='idle'){
-      var b=el('<button class="btn">Hotovo — spustiť časovač ('+fmtDur(step.min)+')</button>');
-      b.onclick=startStep; ctrls.appendChild(b);
+      var b=el('<button class="btn">Hotovo — spustiť časovač ('+fmtDur(step.min)+')</button>'); b.onclick=startStep; ctrls.appendChild(b);
     } else if(mode==='running'){
       var p=el('<button class="btn ghost small">Pauza</button>');
       p.onclick=function(){ state.remain=Math.max(0,(state.endAt-Date.now())/1000); state.paused=true; state.endAt=null; saveState(); dropWake(); };
-      var add=el('<button class="btn ghost small">+1 min</button>');
-      add.onclick=function(){ if(state.endAt){ state.endAt+=60000; saveState(); } };
+      var add=el('<button class="btn ghost small">+1 min</button>'); add.onclick=function(){ if(state.endAt){ state.endAt+=60000; saveState(); } };
       ctrls.appendChild(p); ctrls.appendChild(add);
     } else if(mode==='paused'){
       var r=el('<button class="btn">Pokračovať</button>');
-      r.onclick=function(){ state.endAt=Date.now()+state.remain*1000; state.paused=false; state.remain=null; saveState(); getWake(); };
+      r.onclick=function(){ state.endAt=Date.now()+state.remain*1000; state.paused=false; state.remain=null; saveState(); if(step.min<=120) getWake(); };
       ctrls.appendChild(r);
     } else if(mode==='ringing'){
-      ringWrap.classList.add('ringing');
-      var n=el('<button class="btn">'+(state.step<steps.length-1?'Ďalší krok →':'Dokončiť 🎉')+'</button>');
-      n.onclick=nextStep; ctrls.appendChild(n);
-      var s2=el('<button class="btn ghost small">+1 min</button>');
-      s2.onclick=function(){ ringWrap.classList.remove('ringing'); rang=false; state.endAt=Date.now()+60000; state.paused=false; saveState(); };
-      ctrls.appendChild(s2);
+      var n=el('<button class="btn">'+(state.step<steps.length-1?'Ďalší krok →':'Dokončiť 🎉')+'</button>'); n.onclick=nextStep; ctrls.appendChild(n);
+      var s2=el('<button class="btn ghost small">+1 min</button>'); s2.onclick=function(){ stopAlarm(); ringWrap.classList.remove('ringing'); rang=false; state.endAt=Date.now()+60000; state.paused=false; saveState(); }; ctrls.appendChild(s2);
     }
   }
 
   var rang=false, lastMode=null;
   function setMode(m){ if(m!==lastMode){ lastMode=m; drawControls(m); } }
   function tick(){
-    if(state.paused){ big.textContent=fmt(state.remain); sub.textContent='pauza'; arc.style.strokeDashoffset=C*(1-state.remain/totalSec); setMode('paused'); return; }
-    if(!state.endAt){ big.textContent=fmt(totalSec); sub.textContent='pripravené'; arc.style.strokeDashoffset=0; setMode('idle'); return; }
+    if(state.paused){ big.textContent=fmt(state.remain); sub.textContent='pauza'; finishLine.textContent=''; arc.style.strokeDashoffset=C*(1-state.remain/totalSec); ringWrap.classList.remove('ringing'); setMode('paused'); return; }
+    if(!state.endAt){ big.textContent=fmt(totalSec); sub.textContent='pripravené'; finishLine.textContent=''; arc.style.strokeDashoffset=0; ringWrap.classList.remove('ringing'); setMode('idle'); return; }
     var rem=(state.endAt-Date.now())/1000;
     if(rem<=0){
-      big.textContent='Hotovo!'; sub.textContent=step.name+' dokončené'; arc.style.strokeDashoffset=C;
-      if(!rang){ rang=true; beep(); notify('Krok hotový: '+step.name, 'Ťukni pre ďalší krok.'); dropWake(); }
+      big.textContent='Hotovo!'; sub.textContent=step.name+' dokončené'; finishLine.textContent=''; arc.style.strokeDashoffset=C;
+      if(!rang){ rang=true; startAlarm(); notify('Krok hotový: '+step.name, 'Ťukni pre ďalší krok.'); dropWake(); }
       ringWrap.classList.add('ringing'); setMode('ringing'); return;
     }
-    big.textContent=fmt(rem); sub.textContent='zostáva'; arc.style.strokeDashoffset=C*(1-rem/totalSec); rang=false; ringWrap.classList.remove('ringing'); setMode('running');
+    big.textContent=fmt(rem); sub.textContent='zostáva';
+    var fin=new Date(state.endAt); finishLine.textContent='hotovo o '+clockTime(fin)+' ('+dayLabel(fin,new Date())+')';
+    arc.style.strokeDashoffset=C*(1-rem/totalSec); rang=false; ringWrap.classList.remove('ringing'); setMode('running');
   }
   tick(); ticker=setInterval(tick,250);
 }
 
 function renderDone(){
-  dropWake(); app.innerHTML='';
+  stopAlarm(); dropWake(); app.innerHTML='';
   app.appendChild(el('<div class="done-emoji">🥖🎉</div>'));
   app.appendChild(el('<h1 class="center">Hotovo!</h1>'));
-  app.appendChild(el('<p class="sub center">Cesto je pripravené na vytvarovanie a kysnutie. Dobrú chuť!</p>'));
-  app.appendChild(el('<div class="spacer"></div>'));
-  var b=el('<button class="btn">Späť na začiatok</button>');
-  b.onclick=function(){ resetRun(); render(); };
-  app.appendChild(b);
+  app.appendChild(el('<p class="sub center">Cesto je upečené. Nech vychladne aspoň hodinu — a dobrú chuť!</p>'));
+
+  app.appendChild(el('<div class="label"><span>Zapíš do denníka</span></div>'));
+  var rating=0;
+  var starsWrap=el('<div class="stars"></div>');
+  var starsEls=[];
+  for(var i=1;i<=5;i++){ (function(n){ var s=el('<span class="star">★</span>'); s.onclick=function(){ rating=n; starsEls.forEach(function(e,idx){ e.classList.toggle('on', idx<n); }); }; starsEls.push(s); starsWrap.appendChild(s); })(i); }
+  app.appendChild(starsWrap);
+  var ta=el('<textarea class="ta" placeholder="Poznámka — ako sa podaril, čo nabudúce zmeniť…"></textarea>');
+  app.appendChild(ta);
+
+  var t=getType(state.type);
+  var save=el('<button class="btn">Uložiť do denníka</button>');
+  save.onclick=function(){
+    if(rating>0 || ta.value.trim()){
+      var j=loadJournal();
+      j.unshift({ id:Date.now(), ts:Date.now(), typeName:t.name, count:state.count, rating:rating, note:ta.value.trim() });
+      saveJournal(j);
+    }
+    resetRun(); render();
+  };
+  app.appendChild(save);
+  var skip=el('<button class="btn ghost small">Späť na začiatok (neukladať)</button>');
+  skip.onclick=function(){ resetRun(); render(); };
+  app.appendChild(skip);
+}
+
+function renderJournal(){
+  app.innerHTML='';
+  app.appendChild(backTop('Domov', function(){ go('home'); }, null));
+  app.appendChild(el('<div><h1>📖 Denník pečenia</h1></div>'));
+  var j=loadJournal();
+  if(!j.length){ app.appendChild(el('<div class="empty">Zatiaľ žiadne záznamy.<br>Po upečení chleba si môžeš zapísať, ako sa podaril.</div>')); }
+  else {
+    j.forEach(function(e){
+      var d=new Date(e.ts);
+      var stars=''; for(var k=0;k<5;k++) stars+=(k<e.rating?'★':'☆');
+      var entry=el('<div class="jentry"></div>');
+      var head=el('<div class="jhead"><div><div class="jtitle">'+e.typeName+' · '+e.count+'×</div><div class="jdate">'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'</div>'+(e.rating?'<div class="jstars">'+stars+'</div>':'')+'</div></div>');
+      var del=el('<button class="jdel" title="Zmazať">×</button>');
+      del.onclick=function(){ var jj=loadJournal().filter(function(x){ return x.id!==e.id; }); saveJournal(jj); renderJournal(); };
+      head.appendChild(del); entry.appendChild(head);
+      if(e.note) entry.appendChild(el('<div class="jnote">'+e.note.replace(/</g,'&lt;')+'</div>'));
+      app.appendChild(entry);
+    });
+  }
+}
+
+function renderTips(){
+  app.innerHTML='';
+  app.appendChild(backTop('Domov', function(){ go('home'); }, null));
+  app.appendChild(el('<div><h1>💡 Tipy a riešenia</h1><p class="sub">Keď sa niečo nepodarí podľa predstáv.</p></div>'));
+  TIPS.forEach(function(t){
+    app.appendChild(el('<div class="tipcard"><div class="tipq">'+t.q+'</div><div class="tipa">'+t.a+'</div></div>'));
+  });
 }
 
 /* ---------- service worker ---------- */

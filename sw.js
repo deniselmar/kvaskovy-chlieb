@@ -1,4 +1,4 @@
-const CACHE = 'kchlieb-v4';
+const CACHE = 'kchlieb-v5';
 const ASSETS = [
   './',
   './index.html',
