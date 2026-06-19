@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>Kváskový chlieb</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Chlieb">
+<meta name="theme-color" content="#b9763f">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" href="./icon-192.png">
+<style>
+  :root{
+    --bg:#1c1410; --card:#2a201a; --card2:#352920;
+    --crust:#b9763f; --crust-d:#9a5d2c; --crumb:#f0d9a8;
+    --text:#f3e9da; --muted:#b09a82; --ok:#7fae5a; --line:#43342a;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    background:radial-gradient(120% 80% at 50% 0%, #2a1d14 0%, var(--bg) 70%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    min-height:100%; overflow-x:hidden;
+  }
+  .wrap{max-width:520px;margin:0 auto;padding:18px 18px 40px;min-height:100vh;display:flex;flex-direction:column}
+  h1{font-size:25px;margin:6px 0 2px;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  .label{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px}
+
+  .types{display:grid;gap:12px}
+  .type{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid transparent;border-radius:18px;padding:16px;cursor:pointer;transition:.15s}
+  .type.active{border-color:var(--crust);background:var(--card2)}
+  .type .emoji{font-size:30px;line-height:1}
+  .type .tt{font-size:17px;font-weight:600}
+  .type .td{font-size:13px;color:var(--muted);margin-top:2px}
+
+  .stepper{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:18px;padding:10px 14px}
+  .stepper .cnt{font-size:30px;font-weight:700;min-width:60px;text-align:center}
+  .stepper .cntl{font-size:13px;color:var(--muted)}
+  .rnd{width:54px;height:54px;border-radius:50%;border:none;background:var(--card2);color:var(--text);font-size:28px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .rnd:active{transform:scale(.94)}
+
+  .recipe{background:var(--card);border-radius:18px;padding:6px 18px;margin-top:6px}
+  .ing{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .ing:last-child{border-bottom:none}
+  .ing .v{font-weight:600;color:var(--crumb)}
+  .ing input{width:84px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:16px;font-weight:600;padding:8px;text-align:right}
+  .ing .unit{color:var(--muted);font-size:14px;margin-left:6px;min-width:24px}
+  .ing .nm{flex:1}
+
+  .btn{display:block;width:100%;border:none;border-radius:16px;padding:18px;font-size:18px;font-weight:700;background:var(--crust);color:#241408;cursor:pointer;margin-top:14px}
+  .btn:active{background:var(--crust-d)}
+  .btn.ghost{background:var(--card2);color:var(--text);font-weight:600}
+  .btn.small{padding:14px;font-size:16px}
+  .row2{display:flex;gap:10px}
+  .row2 .btn{margin-top:0;flex:1}
+  .spacer{flex:1;min-height:14px}
+
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .top .back{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:6px}
+  .pill{font-size:12px;color:var(--muted);background:var(--card);padding:6px 12px;border-radius:20px}
+  .linkbtn{background:none;border:none;color:var(--crust);font-size:15px;font-weight:600;cursor:pointer;padding:6px}
+
+  .progress{display:flex;gap:5px;margin:6px 0 22px}
+  .progress .seg{flex:1;height:6px;border-radius:3px;background:var(--line)}
+  .progress .seg.done{background:var(--crust)}
+  .progress .seg.cur{background:var(--crumb)}
+
+  .stepname{font-size:15px;color:var(--crust);font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:center}
+  .instruction{font-size:19px;line-height:1.45;text-align:center;margin:14px 6px 8px}
+  .note{font-size:14px;color:var(--muted);text-align:center;margin:0 6px 6px;line-height:1.4}
+
+  .ring{position:relative;width:260px;height:260px;margin:18px auto 6px;max-width:80vw;max-height:80vw}
+  .ring svg{transform:rotate(-90deg);width:100%;height:100%}
+  .time{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .time .big{font-size:52px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
+  .time .st{font-size:14px;color:var(--muted);margin-top:2px}
+  .ring.ringing{animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+  .ctrls{display:flex;gap:10px;margin-top:8px}
+  .ctrls .btn{margin-top:0}
+  .done-emoji{font-size:64px;text-align:center;margin:10px}
+  .center{text-align:center}
+  .field{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+  .field:last-child{border-bottom:none}
+  .field label{font-size:16px}
+  .field .inp{display:flex;align-items:center;gap:8px}
+  .field input{width:80px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--crumb);font-size:17px;font-weight:600;padding:9px;text-align:right}
+  .field .u{color:var(--muted);font-size:14px;min-width:28px}
+  .hint{font-size:13px;color:var(--muted);background:var(--card);border-radius:14px;padding:12px 14px;line-height:1.45;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- DEFAULTS ---------- */
+var DEF_BASE = { muka:500, voda:350, kvasok:100, sol:10, rasca:5 }; // na 1 bochník
+var DEF_EXTRA = { cibulka:100, cheddar:80 };                        // na 1 bochník
+var DEF_TIMES = [85,30,30,30,30,30,30,15];                          // minúty / krok
+
+var BASE_FIELDS = [
+  {k:'muka',  label:'Chlebová múka', u:'g'},
+  {k:'voda',  label:'Vlažná voda',   u:'ml'},
+  {k:'kvasok',label:'Aktívny kvások',u:'g'},
+  {k:'sol',   label:'Soľ',           u:'g'},
+  {k:'rasca', label:'Rasca',         u:'g'}
+];
+
+var TYPES = {
+  klasik:  { name:'Klasický',   emoji:'🍞', desc:'Tradičný kváskový s rascou', extraKey:null },
+  cibulka: { name:'S cibuľkou', emoji:'🧅', desc:'S opraženou cibuľkou', extraKey:'cibulka', extraLabel:'Opražená cibuľka' },
+  cheddar: { name:'S cheddarom',emoji:'🧀', desc:'S nastrúhaným cheddarom', extraKey:'cheddar', extraLabel:'Nastrúhaný cheddar' }
+};
+
+var STEP_META = [
+  {name:'Autolýza',          ins:'Zmiešaj múku s vodou, len kým nie je všetka múka mokrá. Prikry a nechaj odpočívať.', note:'Cesto bude lepkavé a hrudkovité — to je v poriadku.'},
+  {name:'Kvások',            ins:'Vmiešaj aktívny kvások do cesta, kým sa pekne nespojí. Prikry.', note:''},
+  {name:'Soľ s rascou',      ins:'Pridaj soľ a rascu, dôkladne vmiesi do cesta. Prikry.', note:''},
+  {name:'Prekladanie 1 z 4', ins:'Mokrou rukou cesto zo všetkých strán natiahni a prelož do stredu (4×).', note:''},
+  {name:'Prekladanie 2 z 4', ins:'Znova cesto natiahni a prelož do stredu zo všetkých strán. Prikry.', note:''},
+  {name:'Prekladanie 3 z 4', ins:'Znova cesto natiahni a prelož do stredu zo všetkých strán. Prikry.', note:''},
+  {name:'Prekladanie 4 z 4', ins:'Posledné prekladanie — cesto by malo byť hladšie a pružnejšie. Prikry.', note:''},
+  {name:'Odstátie',          ins:'Nechaj cesto naposledy v pokoji odstáť pred ďalším spracovaním.', note:'Potom môžeš cesto vyklopiť, vytvarovať a dať kysnúť.'}
+];
+
+/* ---------- SETTINGS (persist) ---------- */
+var SET_KEY='kchlieb-settings';
+var settings = loadSettings();
+function loadSettings(){
+  var s={ base:Object.assign({},DEF_BASE), extra:Object.assign({},DEF_EXTRA), times:DEF_TIMES.slice() };
+  try{
+    var raw=localStorage.getItem(SET_KEY);
+    if(raw){ var p=JSON.parse(raw);
+      if(p.base) Object.assign(s.base,p.base);
+      if(p.extra) Object.assign(s.extra,p.extra);
+      if(Array.isArray(p.times)&&p.times.length===8) s.times=p.times.slice();
+    }
+  }catch(e){}
+  return s;
+}
+function saveSettings(){ try{ localStorage.setItem(SET_KEY, JSON.stringify(settings)); }catch(e){} }
+
+/* ---------- RUN STATE (persist) ---------- */
+var ST_KEY='kchlieb-state';
+var state = loadState() || { screen:'home', type:'klasik', count:1, step:0, endAt:null, paused:false, remain:null };
+function saveState(){ try{ localStorage.setItem(ST_KEY, JSON.stringify(state)); }catch(e){} }
+function loadState(){ try{ var s=localStorage.getItem(ST_KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
+function resetRun(){ state={ screen:'home', type:state.type, count:state.count, step:0, endAt:null, paused:false, remain:null }; saveState(); }
+
+/* ---------- helpers ---------- */
+function recipeList(typeKey,count){
+  var t=TYPES[typeKey], out=[];
+  BASE_FIELDS.forEach(function(f){ out.push({n:f.label, v:Math.round(settings.base[f.k]*count)+' '+f.u}); });
+  if(t.extraKey){ out.push({n:t.extraLabel, v:Math.round(settings.extra[t.extraKey]*count)+' g'}); }
+  return out;
+}
+function buildSteps(typeKey){
+  var t=TYPES[typeKey];
+  return STEP_META.map(function(m,i){
+    var ins=m.ins;
+    if(i===3 && t.extraKey==='cibulka') ins+=' Vmiešaj opraženú a vychladnutú cibuľku.';
+    if(i===3 && t.extraKey==='cheddar') ins+=' Vmiešaj nastrúhaný cheddar.';
+    return { name:m.name, ins:ins, note:m.note, min:settings.times[i] };
+  });
+}
+function totalMin(){ return settings.times.reduce(function(a,b){return a+(+b||0);},0); }
+function fmtDur(mins){ var h=Math.floor(mins/60), m=mins%60; return (h?h+' h ':'')+(m?m+' min':(h?'':'0 min')); }
+
+/* ---------- AUDIO / WAKE / NOTIFY ---------- */
+var actx=null, wake=null;
+function primeAudio(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
+function beep(){
+  try{
+    primeAudio();
+    var t=actx.currentTime;
+    for(var i=0;i<4;i++){
+      var o=actx.createOscillator(), g=actx.createGain();
+      o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(actx.destination);
+      var s=t+i*0.5;
+      g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(0.6,s+0.05); g.gain.linearRampToValueAtTime(0,s+0.4);
+      o.start(s); o.stop(s+0.42);
+    }
+  }catch(e){}
+  try{ if(navigator.vibrate) navigator.vibrate([400,200,400,200,400]); }catch(e){}
+}
+async function getWake(){ try{ if('wakeLock' in navigator){ wake=await navigator.wakeLock.request('screen'); } }catch(e){} }
+function dropWake(){ try{ if(wake){ wake.release(); wake=null; } }catch(e){} }
+function notify(title,body){
+  try{
+    if('Notification' in window && Notification.permission==='granted' && navigator.serviceWorker && navigator.serviceWorker.controller){
+      navigator.serviceWorker.controller.postMessage({type:'notify',title:title,body:body});
+    }
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible' && state.screen==='timer' && !state.paused && state.endAt && state.endAt>Date.now()){ getWake(); }
+});
+
+/* ---------- RENDER ---------- */
+var app=document.getElementById('app');
+function el(html){ var d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function go(screen){ state.screen=screen; saveState(); render(); }
+
+function render(){
+  if(ticker){ clearInterval(ticker); ticker=null; }
+  if(state.screen==='home') return renderHome();
+  if(state.screen==='recipe') return renderRecipe();
+  if(state.screen==='editRecipe') return renderEditRecipe();
+  if(state.screen==='editTimes') return renderEditTimes();
+  if(state.screen==='done') return renderDone();
+  return renderTimer();
+}
+
+function renderHome(){
+  dropWake();
+  app.innerHTML='';
+  app.appendChild(el('<div><h1>Kváskový chlieb 🍞</h1><p class="sub">Vyber druh a počet — appka ťa krok za krokom prevedie a sama spustí časovače.</p></div>'));
+  app.appendChild(el('<div class="label">Druh chleba</div>'));
+  var types=el('<div class="types"></div>');
+  Object.keys(TYPES).forEach(function(k){
+    var t=TYPES[k];
+    var c=el('<div class="type'+(state.type===k?' active':'')+'"><div class="emoji">'+t.emoji+'</div><div><div class="tt">'+t.name+'</div><div class="td">'+t.desc+'</div></div></div>');
+    c.onclick=function(){ state.type=k; saveState(); renderHome(); };
+    types.appendChild(c);
+  });
+  app.appendChild(types);
+
+  app.appendChild(el('<div class="label">Počet bochníkov</div>'));
+  var sp=el('<div class="stepper"></div>');
+  var minus=el('<button class="rnd">−</button>'), plus=el('<button class="rnd">+</button>');
+  var cnt=el('<div><div class="cnt">'+state.count+'</div><div class="cntl center">'+(state.count===1?'bochník':(state.count<5?'bochníky':'bochníkov'))+'</div></div>');
+  minus.onclick=function(){ if(state.count>1){ state.count--; saveState(); renderHome(); } };
+  plus.onclick=function(){ if(state.count<12){ state.count++; saveState(); renderHome(); } };
+  sp.appendChild(minus); sp.appendChild(cnt); sp.appendChild(plus);
+  app.appendChild(sp);
+
+  app.appendChild(el('<div class="spacer"></div>'));
+  var goBtn=el('<button class="btn">Zobraziť recept →</button>');
+  goBtn.onclick=function(){ go('recipe'); };
+  app.appendChild(goBtn);
+  var edit=el('<button class="btn ghost small">⚙︎ Upraviť recept a časy</button>');
+  edit.onclick=function(){ go('editRecipe'); };
+  app.appendChild(edit);
+}
+
+function renderRecipe(){
+  app.innerHTML='';
+  var t=TYPES[state.type];
+  var top=el('<div class="top"><button class="back">‹ Späť</button><span class="pill">~'+fmtDur(totalMin())+'</span></div>');
+  top.querySelector('.back').onclick=function(){ go('home'); };
+  app.appendChild(top);
+  app.appendChild(el('<div><h1>'+t.emoji+' '+t.name+'</h1><p class="sub">'+state.count+'× bochník · suroviny:</p></div>'));
+
+  var box=el('<div class="recipe"></div>');
+  recipeList(state.type,state.count).forEach(function(r){
+    box.appendChild(el('<div class="ing"><span class="nm">'+r.n+'</span><span class="v">'+r.v+'</span></div>'));
+  });
+  app.appendChild(box);
+
+  var er=el('<div class="row2" style="margin-top:14px"></div>');
+  var b1=el('<button class="btn ghost small">Upraviť recept</button>');
+  var b2=el('<button class="btn ghost small">Upraviť časy</button>');
+  b1.onclick=function(){ go('editRecipe'); };
+  b2.onclick=function(){ go('editTimes'); };
+  er.appendChild(b1); er.appendChild(b2);
+  app.appendChild(er);
+
+  app.appendChild(el('<div class="spacer"></div>'));
+  var start=el('<button class="btn">Začať pečenie 🥖</button>');
+  start.onclick=function(){
+    primeAudio();
+    if('Notification' in window && Notification.permission==='default'){ try{ Notification.requestPermission(); }catch(e){} }
+    state.screen='timer'; state.step=0; state.endAt=null; state.paused=false; state.remain=null; saveState(); render();
+  };
+  app.appendChild(start);
+}
+
+function numInput(val){
+  var i=el('<input type="number" inputmode="decimal" step="any" min="0">');
+  i.value=val; return i;
+}
+
+function renderEditRecipe(){
+  app.innerHTML='';
+  var top=el('<div class="top"><button class="back">‹ Späť</button><button class="linkbtn">Pôvodné</button></div>');
+  top.querySelector('.back').onclick=function(){ go(stateBackFromEdit()); };
+  app.appendChild(top);
+  app.appendChild(el('<div><h1>Upraviť recept</h1><p class="sub">Hodnoty sú <b>na 1 bochník</b>. Celkové množstvo sa prepočíta podľa počtu.</p></div>'));
+
+  var box=el('<div class="recipe"></div>');
+  var inputs={};
+  BASE_FIELDS.forEach(function(f){
+    var row=el('<div class="ing"><span class="nm">'+f.label+'</span></div>');
+    var wrap=el('<span style="display:flex;align-items:center"></span>');
+    var inp=numInput(settings.base[f.k]); inputs['base_'+f.k]=inp;
+    wrap.appendChild(inp); wrap.appendChild(el('<span class="unit">'+f.u+'</span>'));
+    row.appendChild(wrap); box.appendChild(row);
+  });
+  // extras
+  ['cibulka','cheddar'].forEach(function(k){
+    var label = k==='cibulka' ? 'Cibuľka (na chlieb s cibuľkou)' : 'Cheddar (na chlieb s cheddarom)';
+    var row=el('<div class="ing"><span class="nm">'+label+'</span></div>');
+    var wrap=el('<span style="display:flex;align-items:center"></span>');
+    var inp=numInput(settings.extra[k]); inputs['extra_'+k]=inp;
+    wrap.appendChild(inp); wrap.appendChild(el('<span class="unit">g</span>'));
+    row.appendChild(wrap); box.appendChild(row);
+  });
+  app.appendChild(box);
+
+  top.querySelector('.linkbtn').onclick=function(){
+    if(confirm('Vrátiť pôvodné množstvá?')){ settings.base=Object.assign({},DEF_BASE); settings.extra=Object.assign({},DEF_EXTRA); saveSettings(); renderEditRecipe(); }
+  };
+
+  app.appendChild(el('<div class="spacer"></div>'));
+  var save=el('<button class="btn">Uložiť</button>');
+  save.onclick=function(){
+    BASE_FIELDS.forEach(function(f){ var v=parseFloat(inputs['base_'+f.k].value); if(!isNaN(v)&&v>=0) settings.base[f.k]=v; });
+    ['cibulka','cheddar'].forEach(function(k){ var v=parseFloat(inputs['extra_'+k].value); if(!isNaN(v)&&v>=0) settings.extra[k]=v; });
+    saveSettings(); go('recipe');
+  };
+  app.appendChild(save);
+}
+
+function renderEditTimes(){
+  app.innerHTML='';
+  var top=el('<div class="top"><button class="back">‹ Späť</button><button class="linkbtn">Pôvodné</button></div>');
+  top.querySelector('.back').onclick=function(){ go(stateBackFromEdit()); };
+  app.appendChild(top);
+  app.appendChild(el('<div><h1>Upraviť časy</h1><p class="sub">Čas každého kroku v minútach.</p></div>'));
+
+  var box=el('<div class="recipe"></div>');
+  var inputs=[];
+  STEP_META.forEach(function(m,i){
+    var row=el('<div class="field"><label>'+m.name+'</label></div>');
+    var w=el('<span class="inp"></span>');
+    var inp=numInput(settings.times[i]); inputs.push(inp);
+    w.appendChild(inp); w.appendChild(el('<span class="u">min</span>'));
+    row.appendChild(w); box.appendChild(row);
+  });
+  app.appendChild(box);
+  app.appendChild(el('<div class="hint">🌡️ V lete je v kuchyni teplejšie a cesto kysne rýchlejšie — skús kratšie časy prekladania (napr. 20–25 min) a kratšiu autolýzu. V zime naopak časy predĺž.</div>'));
+
+  top.querySelector('.linkbtn').onclick=function(){
+    if(confirm('Vrátiť pôvodné časy?')){ settings.times=DEF_TIMES.slice(); saveSettings(); renderEditTimes(); }
+  };
+
+  app.appendChild(el('<div class="spacer"></div>'));
+  var save=el('<button class="btn">Uložiť</button>');
+  save.onclick=function(){
+    inputs.forEach(function(inp,i){ var v=parseInt(inp.value,10); if(!isNaN(v)&&v>=0) settings.times[i]=v; });
+    saveSettings(); go('recipe');
+  };
+  app.appendChild(save);
+}
+function stateBackFromEdit(){ return 'recipe'; }
+
+var ticker=null;
+function renderTimer(){
+  app.innerHTML='';
+  var steps=buildSteps(state.type);
+  var step=steps[state.step];
+  var totalSec=Math.max(1, step.min*60);
+
+  var top=el('<div class="top"><button class="back">‹ Domov</button><span class="pill">Krok '+(state.step+1)+' / '+steps.length+'</span></div>');
+  top.querySelector('.back').onclick=function(){ if(confirm('Zrušiť postup a vrátiť sa na začiatok?')){ resetRun(); render(); } };
+  app.appendChild(top);
+
+  var prog=el('<div class="progress"></div>');
+  steps.forEach(function(s,i){ prog.appendChild(el('<div class="seg '+(i<state.step?'done':(i===state.step?'cur':''))+'"></div>')); });
+  app.appendChild(prog);
+
+  app.appendChild(el('<div class="stepname">'+step.name+'</div>'));
+  app.appendChild(el('<div class="instruction">'+step.ins+'</div>'));
+  if(step.note) app.appendChild(el('<div class="note">'+step.note+'</div>'));
+
+  var R=120, C=2*Math.PI*R;
+  var ringWrap=el('<div class="ring"><svg viewBox="0 0 260 260">'+
+    '<circle cx="130" cy="130" r="'+R+'" stroke="#43342a" stroke-width="14" fill="none"/>'+
+    '<circle id="arc" cx="130" cy="130" r="'+R+'" stroke="#b9763f" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="0"/>'+
+    '</svg><div class="time"><div class="big" id="big">--:--</div><div class="st" id="sub"></div></div></div>');
+  app.appendChild(ringWrap);
+  var arc=ringWrap.querySelector('#arc'), big=ringWrap.querySelector('#big'), sub=ringWrap.querySelector('#sub');
+  var ctrls=el('<div class="ctrls"></div>'); app.appendChild(ctrls);
+
+  function fmt(s){ s=Math.max(0,Math.round(s)); var m=Math.floor(s/60), ss=s%60; return m+':'+(ss<10?'0':'')+ss; }
+  function startStep(){ primeAudio(); state.endAt=Date.now()+totalSec*1000; state.paused=false; state.remain=null; saveState(); getWake(); }
+  function nextStep(){
+    dropWake();
+    if(state.step<steps.length-1){ state.step++; state.endAt=null; state.paused=false; state.remain=null; saveState(); render(); }
+    else { state.screen='done'; saveState(); render(); }
+  }
+
+  function drawControls(mode){
+    ctrls.innerHTML='';
+    if(mode==='idle'){
+      var b=el('<button class="btn">Hotovo — spustiť časovač ('+step.min+' min)</button>');
+      b.onclick=startStep; ctrls.appendChild(b);
+    } else if(mode==='running'){
+      var p=el('<button class="btn ghost small">Pauza</button>');
+      p.onclick=function(){ state.remain=Math.max(0,(state.endAt-Date.now())/1000); state.paused=true; state.endAt=null; saveState(); dropWake(); };
+      var add=el('<button class="btn ghost small">+1 min</button>');
+      add.onclick=function(){ if(state.endAt){ state.endAt+=60000; saveState(); } };
+      ctrls.appendChild(p); ctrls.appendChild(add);
+    } else if(mode==='paused'){
+      var r=el('<button class="btn">Pokračovať</button>');
+      r.onclick=function(){ state.endAt=Date.now()+state.remain*1000; state.paused=false; state.remain=null; saveState(); getWake(); };
+      ctrls.appendChild(r);
+    } else if(mode==='ringing'){
+      ringWrap.classList.add('ringing');
+      var n=el('<button class="btn">'+(state.step<steps.length-1?'Ďalší krok →':'Dokončiť 🎉')+'</button>');
+      n.onclick=nextStep; ctrls.appendChild(n);
+      var s2=el('<button class="btn ghost small">+1 min</button>');
+      s2.onclick=function(){ ringWrap.classList.remove('ringing'); rang=false; state.endAt=Date.now()+60000; state.paused=false; saveState(); };
+      ctrls.appendChild(s2);
+    }
+  }
+
+  var rang=false, lastMode=null;
+  function setMode(m){ if(m!==lastMode){ lastMode=m; drawControls(m); } }
+  function tick(){
+    if(state.paused){ big.textContent=fmt(state.remain); sub.textContent='pauza'; arc.style.strokeDashoffset=C*(1-state.remain/totalSec); setMode('paused'); return; }
+    if(!state.endAt){ big.textContent=fmt(totalSec); sub.textContent='pripravené'; arc.style.strokeDashoffset=0; setMode('idle'); return; }
+    var rem=(state.endAt-Date.now())/1000;
+    if(rem<=0){
+      big.textContent='Hotovo!'; sub.textContent=step.name+' dokončené'; arc.style.strokeDashoffset=C;
+      if(!rang){ rang=true; beep(); notify('Krok hotový: '+step.name, 'Ťukni pre ďalší krok.'); dropWake(); }
+      ringWrap.classList.add('ringing'); setMode('ringing'); return;
+    }
+    big.textContent=fmt(rem); sub.textContent='zostáva'; arc.style.strokeDashoffset=C*(1-rem/totalSec); rang=false; ringWrap.classList.remove('ringing'); setMode('running');
+  }
+  tick(); ticker=setInterval(tick,250);
+}
+
+function renderDone(){
+  dropWake(); app.innerHTML='';
+  app.appendChild(el('<div class="done-emoji">🥖🎉</div>'));
+  app.appendChild(el('<h1 class="center">Hotovo!</h1>'));
+  app.appendChild(el('<p class="sub center">Cesto je pripravené na vytvarovanie a kysnutie. Dobrú chuť!</p>'));
+  app.appendChild(el('<div class="spacer"></div>'));
+  var b=el('<button class="btn">Späť na začiatok</button>');
+  b.onclick=function(){ resetRun(); render(); };
+  app.appendChild(b);
+}
+
+/* ---------- service worker ---------- */
+if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('./sw.js').catch(function(){}); }); }
+
+render();
+})();
+</script>
+</body>
+</html>
